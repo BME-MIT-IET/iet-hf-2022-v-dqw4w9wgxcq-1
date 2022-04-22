@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+    id="atomgraph-processor" version="3.0">
+    <display-name>AtomGraph Processor</display-name>
+    <description>Ontology-driven Linked Data processor</description>
+    <context-param>
+        <param-name>https://w3id.org/atomgraph/core#preemptiveAuth</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>https://w3id.org/atomgraph/processor#locationMapping</param-name>
+        <param-value>location-mapping.n3</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>com.atomgraph.server.Application</servlet-name>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>com.atomgraph.server.Application</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <listener>
+        <listener-class>com.atomgraph.core.util.jena.StartupListener</listener-class>
+    </listener>
+</web-app>

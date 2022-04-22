@@ -1,0 +1,240 @@
+@base         <https://github.com/AtomGraph/Processor/blob/develop/http-tests/custom> .
+
+@prefix :     <#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix ldt:  <https://www.w3.org/ns/ldt#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix sp:   <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix spl:  <http://spinrdf.org/spl#> .
+
+: a ldt:Ontology, owl:Ontology ;
+    owl:imports ldt:, sp:, spin:, spl: ;
+    rdfs:label "Test ontology" .
+
+# classes
+
+:SPINConstrainedType a rdfs:Class ;
+    rdfs:label "SPIN constrained class" ;
+    spin:constraint :MissingPropertyQuery ;
+    rdfs:isDefinedBy : .
+
+:SHACLConstrainedType a rdfs:Class ;
+    rdfs:label "SHACL constrained class" ;
+    rdfs:isDefinedBy : .
+
+# shapes
+
+:MinCountExampleShape a sh:PropertyShape ;
+    sh:targetClass :SHACLConstrainedType ;
+    sh:path <http://example.com/constrained-predicate> ;
+    sh:minCount 1 ;
+    rdfs:isDefinedBy : .
+
+# templates
+
+:ThisUnboundTemplate a ldt:Template ;
+    rdfs:label "?this unbound template" ;
+    ldt:match "/this-unbound" ;
+    ldt:query :ThisUnboundQuery ;
+    rdfs:isDefinedBy : .
+
+:DefaultSubjectSuperTemplate a ldt:Template ;
+    rdfs:label "Default subject super template" ;
+    ldt:match "/super" ;
+    ldt:query :DefaultSubjectQueryTemplateCall ;
+    ldt:update :DefaultSubjectUpdateTemplateCall ;
+    rdfs:isDefinedBy : .
+
+:DefaultSubjectTemplate a ldt:Template ;
+    rdfs:label "Default subject template" ;
+    ldt:match "/default-subject" ;
+    ldt:extends :DefaultSubjectSuperTemplate ;
+    rdfs:isDefinedBy : .
+
+:MissingQueryTemplate a ldt:Template ;
+    rdfs:label "Missing query template" ;
+    ldt:match "/missing-query" ;
+    rdfs:isDefinedBy : .
+
+:InvalidQueryTemplate a ldt:Template ;
+    rdfs:label "Invalid query template" ;
+    ldt:match "/invalid-query" ;
+    ldt:query _:query ;
+    rdfs:isDefinedBy : .
+
+:MissingUpdateTemplate a ldt:Template ;
+    rdfs:label "Missing update template" ;
+    ldt:match "/missing-update" ;
+    ldt:query :DefaultSubjectQuery ;
+    rdfs:isDefinedBy : .
+
+:InvalidUpdateTemplate a ldt:Template ;
+    rdfs:label "Invalid update template" ;
+    ldt:match "/invalid-update" ;
+    ldt:query :DefaultSubjectQuery ;
+    ldt:update _:update ;
+    rdfs:isDefinedBy : .
+
+:UnusedParamTemplate a ldt:Template ;
+    rdfs:label "Mandatory param template" ;
+    ldt:match "/mandatory-param" ;
+    ldt:query :DefaultSubjectQuery ; # param is not used if the query is not a SPIN template
+    ldt:param :IgnoredParam ;
+    rdfs:isDefinedBy : .
+
+:MandatoryParamTemplate a ldt:Template ;
+    rdfs:label "Mandatory param template" ;
+    ldt:match "/mandatory-param" ;
+    ldt:query :DefaultSubjectQueryTemplateCall ;
+    ldt:param :MandatoryParam ;
+    rdfs:isDefinedBy : .
+
+:OptionalParamTemplate a ldt:Template ;
+    rdfs:label "Optional param template" ;
+    ldt:match "/optional-param" ;
+    ldt:query :DefaultSubjectQueryTemplateCall ;
+    ldt:update :DefaultSubjectUpdateTemplateCall ;
+    ldt:param :OptionalParam ;
+    rdfs:isDefinedBy : .
+
+:OptionalDefaultParamTemplate a ldt:Template ;
+    rdfs:label "Optional default param template" ;
+    ldt:match "/optional-default-param" ;
+    ldt:query :DefaultSubjectQueryTemplateCall ;
+    ldt:param :OptionalDefaultParam ;
+    rdfs:isDefinedBy : .
+
+:InheritedParamTemplate a ldt:Template ;
+    ldt:extends :OptionalParamTemplate ;
+    rdfs:label "Inherited param template" ;
+    ldt:match "/inherited-param" ;
+    ldt:param :UnusedParam ;
+    rdfs:isDefinedBy : .
+
+:ValueTypeParamTemplate a ldt:Template ;
+    rdfs:label "Value type param template" ;
+    ldt:match "/value-type-param" ;
+    ldt:query :DefaultSubjectQueryTemplateCall ;
+    ldt:param :ValueTypeParam ;
+    rdfs:isDefinedBy : .
+
+# used in ../../graph-store-protocol/direct/ tests
+
+:GraphItem a ldt:Template ;
+    ldt:match "/graphs/{slug}/" ;
+    ldt:query :DefaultSubjectQuery ;
+    ldt:loadClass <java:com.atomgraph.server.resource.graph.Item> ;
+    rdfs:label "Graph document" ;
+    rdfs:isDefinedBy : .
+
+# parameters
+
+:object a rdf:Property ;
+    rdfs:isDefinedBy : .
+
+:IgnoredParam a ldt:Parameter ;
+    rdfs:label "Ignored parameter" ;
+    spl:predicate :object ;
+    spl:optional true ;
+    rdfs:isDefinedBy : .
+
+:MandatoryParam a ldt:Parameter ;
+    rdfs:label "Mandatory parameter" ;
+    spl:predicate :object ;
+    spl:optional false ;
+    rdfs:isDefinedBy : .
+
+:OptionalParam a ldt:Parameter ;
+    rdfs:label "Optional parameter" ;
+    spl:predicate :object ;
+    spl:optional true ;
+    rdfs:isDefinedBy : .
+
+:OptionalDefaultParam a ldt:Parameter ;
+    rdfs:label "Optional default parameter" ;
+    spl:predicate :object ;
+    spl:optional true ;
+    spl:defaultValue "optional default object" ;
+    rdfs:isDefinedBy : .
+
+:ValueTypeParam a ldt:Parameter ;
+    rdfs:label "Value typed parameter" ;
+    spl:predicate :object ;
+    spl:optional false ;
+    spl:valueType xsd:integer ;
+    rdfs:isDefinedBy : .
+
+:unused a rdf:Property ;
+    rdfs:isDefinedBy : .
+
+:UnusedParam a ldt:Parameter ;
+    rdfs:label "Unused parameter" ;
+    spl:predicate :unused ;
+    spl:optional true ;
+    spl:valueType xsd:integer ;
+    rdfs:isDefinedBy : .
+
+# template calls
+
+:DefaultSubjectQueryTemplateCall a :DefaultSubjectQueryTemplate .
+
+:DefaultSubjectUpdateTemplateCall a :DefaultSubjectUpdateTemplate .
+
+# queries
+
+:ThisUnboundQuery a ldt:Query, sp:Describe ;
+    rdfs:label "Default subject query" ;
+    sp:text """DESCRIBE ?subject
+{
+    ?subject <http://example.com/default-predicate> ?object
+}""" ;
+    rdfs:isDefinedBy : .
+
+:DefaultSubjectQueryTemplate a spin:Template ;
+    rdfs:label "Default subject query template" ;
+    spin:constraint :OptionalParam ;
+    spin:body :DefaultSubjectQuery ;
+    rdfs:isDefinedBy : .
+
+:DefaultSubjectQuery a ldt:Query, sp:Describe ;
+    rdfs:label "Default subject query" ;
+    sp:text """CONSTRUCT
+{
+    ?this <http://example.com/default-predicate> ?object
+}
+{
+    ?this <http://example.com/default-predicate> ?object
+}""" ;
+    rdfs:isDefinedBy : .
+
+:DefaultSubjectUpdateTemplate a spin:Template ;
+    rdfs:label "Default subject update template" ;
+    spin:constraint :OptionalParam ;
+    spin:body :DefaultSubjectUpdate ;
+    rdfs:isDefinedBy : .
+
+:DefaultSubjectUpdate a ldt:Query, sp:Delete ;
+    rdfs:label "Default subject update" ;
+    sp:text """DELETE WHERE
+{
+    ?this <http://example.com/default-predicate> ?object
+}""" ;
+    rdfs:isDefinedBy : .
+
+:MissingPropertyQuery a sp:Construct ;
+    rdfs:label "Missing property query" ;
+    sp:text """PREFIX spin: <http://spinrdf.org/spin#>
+    
+    CONSTRUCT {
+      _:b0 a spin:ConstraintViolation .
+      _:b0 spin:violationRoot ?this .
+      _:b0 spin:violationPath <http://example.com/constrained-predicate> .
+      _:b0 spin:violationValue ?object .
+  }
+WHERE
+  { FILTER NOT EXISTS { ?this  <http://example.com/constrained-predicate>  ?object } }""" ;
+    rdfs:isDefinedBy : .
