@@ -1,4 +1,4 @@
-Az AtomGraph Processor deklaratív, írható-olvasható csatolt adatalkalmazások szervere. Ha van egy hármas tárolód RDF adatokkal, amelyből csatolt adatokat szeretne kiszolgálni, vagy RDF-et szeretne írni egy RESTful HTTP interfészen keresztül, az AtomGraph processzor az egyetlen összetevő, amire szüksége van.
+Az AtomGraph Processor deklaratív, írható-olvasható csatolt adatalkalmazások szervere. Ha van egy hármas tárolód RDF adatokkal, amelyből csatolt adatokat szeretne kiszolgálni, vagy RDF-et szeretne írni egy RESTful HTTP interfészen keresztül, az AtomGraph processzor egyetlen összetevőként kezeli mindezt.
 
 Amit az AtomGraph processzor a felhasználók számára készen kapható általános funkciókként biztosít:
 
