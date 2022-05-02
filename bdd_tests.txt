@@ -1,0 +1,44 @@
+processor\model\impl\TemplateCallImpl.java
+-----------------------------------------------
+applyArguments(MultivaluedMap<String, String> queryParams)
+*applyDefaults()
+*getArgument(Property predicate)
+getArgument(String varName, RDFNode object)
+*getArgumentProperty(Property predicate)
+arg(Parameter param, RDFNode value)
+arg(Resource arg)
+validateOptionals()
+getQuerySolutionMap()
+
+processor\model\impl\TemplateImpl.java
+-----------------------------------------------
+*canWrap(Node node, EnhGraph eg)
+getMatch()
+*getFragmentTemplate()
+*getQuery()
+*getUpdate()
+*getPriority()
+*getParameters()
+getLocalParameters()
+*getParameterMap()
+*getLanguages()
+getLanguages(Template template, Property property)
+*getLoadClass()
+*getCacheControl()
+getSuperTemplates(Template template)
+*getSelfOrSuperWithProperty(Property property)
+
+processor\util\RDFNodeFactory.java
+-----------------------------------------------
+createTyped(String value, Resource valueType)
+
+processor\util\Skolomizer.java
+-----------------------------------------------
+build(Model model)
+build(Resource resource)
+
+processor\util\TemplateMatcher.java
+-----------------------------------------------
+match(URI uri, URI base)
+match(Ontology ontology, CharSequence path, int level)
+match(Ontology ontology, CharSequence path)
