@@ -1,7 +1,16 @@
 # Manuális kód átvizsgálás
-
+A kód manuális áttekintése folyamán a következő problémák merültek fel:
+- nem használt privát mezők
+- felesleges importok
+- kikommentezett kódsorok
+- üres metódus
+- túl komplex metódusok
+- string konkatenáció plusz jellel
+- singleton osztályok privát konstruktor nélkül
 ## Eredmények és tanulságok
+A felesleges sorok, mezők, importok törlésre kerültek. Üres metódus belsejébe exception dobás került. A túl komplex metódusokat lerövidítettem, kiszerveztem kisebb metódusokba, amelyek meghívásra kerülnek. A singleton osztályokhoz privát konstruktort adtam, hogy ne lehessen belőlük több példányt létrehozni.
 
+Mindenképp fontos manuálisan átnézni a kódot, hiszen így lehet jobban megérteni a program működését, a kód első megírását követően az újraolvasás akár lényeges rövidítésekhez, refaktoráláshoz is vezethet.
 # Statikus analízis eszköz futtatása
 A SonarCloud beüzemelése után az elemzés megtalált 19 bugot és 93 code smellt, amely az alábbi ábrán látszik is:
 ![](sonar_issues.png)
