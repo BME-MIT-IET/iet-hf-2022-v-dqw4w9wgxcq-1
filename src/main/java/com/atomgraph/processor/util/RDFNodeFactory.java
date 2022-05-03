@@ -29,10 +29,11 @@ import org.apache.jena.vocabulary.XSD;
  */
 public class RDFNodeFactory
 {
+    private RDFNodeFactory(){}
     
     public static final RDFNode createTyped(String value, Resource valueType)
     {
-	if (value == null) throw new IllegalArgumentException("Param value cannot be null");
+        if (value == null) throw new IllegalArgumentException("Param value cannot be null");
 
         // without value type, return default xsd:string value
         if (valueType == null) return ResourceFactory.createTypedLiteral(value, XSDDatatype.XSDstring);

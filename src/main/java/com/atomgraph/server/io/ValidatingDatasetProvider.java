@@ -67,26 +67,18 @@ public class ValidatingDatasetProvider extends DatasetProvider
     
     public Dataset validate(Dataset dataset)
     {
-        Optional<Ontology> ontology = getOntology();
-        if (ontology.isPresent())
+        Optional<Ontology> ontologyCurrent = getOntology();
+        if (ontologyCurrent.isPresent())
         {
             // SPIN validation
-            Validator validator = new Validator(ontology.get().getOntModel());
+            Validator validator = new Validator(ontologyCurrent.get().getOntModel());
             List<ConstraintViolation> cvs = validator.validate(dataset.getDefaultModel());
-            if (!cvs.isEmpty())
-            {
-                if (log.isDebugEnabled()) log.debug("SPIN constraint violations: {}", cvs);
-                throw new SPINConstraintViolationException(cvs, dataset.getDefaultModel());
-            }
+            spinValidateDefault(cvs, dataset);
 
             // SHACL validation
-            Shapes shapes = Shapes.parse(ontology.get().getOntModel().getGraph());
+            Shapes shapes = Shapes.parse(ontologyCurrent.get().getOntModel().getGraph());
             ValidationReport report = ShaclValidator.get().validate(shapes, dataset.getDefaultModel().getGraph());
-            if (!report.conforms())
-            {
-                if (log.isDebugEnabled()) log.debug("SHACL constraint violations: {}", report);
-                throw new SHACLConstraintViolationException(report, dataset.getDefaultModel());
-            }
+            shaclValidateDefault(report, dataset);
 
             Iterator<String> it = dataset.listNames();
             while (it.hasNext())
@@ -95,23 +87,51 @@ public class ValidatingDatasetProvider extends DatasetProvider
 
                 // SPIN validation
                 cvs = validator.validate(dataset.getNamedModel(graphURI));
-                if (!cvs.isEmpty())
-                {
-                    if (log.isDebugEnabled()) log.debug("SPIN constraint violations: {}", cvs);
-                    throw new SPINConstraintViolationException(cvs, dataset.getNamedModel(graphURI), graphURI);
-                }
+                spinValidateNamedModel(cvs, dataset, graphURI);
 
                 // SHACL validation
                 report = ShaclValidator.get().validate(shapes, dataset.getNamedModel(graphURI).getGraph());
-                if (!report.conforms())
-                {
-                    if (log.isDebugEnabled()) log.debug("SHACL constraint violations: {}", report);
-                    throw new SHACLConstraintViolationException(report, dataset.getNamedModel(graphURI));
-                }
+                shaclValidateNamedModel(report, dataset, graphURI);
             }
         }
         
         return dataset;
+    }
+
+    private void spinValidateDefault(List<ConstraintViolation> cvs, Dataset dataset)
+    {
+        if (!cvs.isEmpty())
+            {
+                if (log.isDebugEnabled()) log.debug("SPIN constraint violations: {}", cvs);
+                throw new SPINConstraintViolationException(cvs, dataset.getDefaultModel());
+            }
+    }
+
+    private void spinValidateNamedModel(List<ConstraintViolation> cvs, Dataset dataset, String graphURI)
+    {
+        if (!cvs.isEmpty())
+            {
+                if (log.isDebugEnabled()) log.debug("SPIN constraint violations: {}", cvs);
+                throw new SPINConstraintViolationException(cvs, dataset.getNamedModel(graphURI), graphURI);
+            }
+    }
+
+    private void shaclValidateDefault(ValidationReport report, Dataset dataset)
+    {
+        if (!report.conforms())
+        {
+            if (log.isDebugEnabled()) log.debug("SHACL constraint violations: {}", report);
+            throw new SHACLConstraintViolationException(report, dataset.getDefaultModel());
+        }
+    }
+
+    private void shaclValidateNamedModel(ValidationReport report, Dataset dataset, String graphURI)
+    {
+        if (!report.conforms())
+                {
+                    if (log.isDebugEnabled()) log.debug("SHACL constraint violations: {}", report);
+                    throw new SHACLConstraintViolationException(report, dataset.getNamedModel(graphURI));
+                }
     }
         
     public Optional<Ontology> getOntology()

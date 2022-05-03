@@ -28,8 +28,6 @@ import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Dataset provider that skolemizes read triples in each graph against class URI templates in an ontology.
@@ -39,8 +37,6 @@ import org.slf4j.LoggerFactory;
 public class SkolemizingDatasetProvider extends ValidatingDatasetProvider
 {
 
-    private static final Logger log = LoggerFactory.getLogger(SkolemizingDatasetProvider.class);
-    
     @Context private Request request;
     @Context UriInfo uriInfo;
 

@@ -16,7 +16,7 @@
 
 package com.atomgraph.server.model;
 
-import com.atomgraph.processor.model.Application;
+import com.atomgraph.processor.model.App;
 import com.atomgraph.processor.model.TemplateCall;
 import java.util.Optional;
 import org.apache.jena.ontology.Ontology;
@@ -28,7 +28,7 @@ import org.apache.jena.ontology.Ontology;
 public interface Resource
 {
         
-    Application getApplication();
+    App getApplication();
     
     Ontology getOntology();
     

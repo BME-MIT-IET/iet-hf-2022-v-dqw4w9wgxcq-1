@@ -27,7 +27,7 @@ import org.apache.jena.rdf.model.Resource;
  */
 public class NGT
 {
-
+    private NGT(){}
     /** <p>The RDF model that holds the vocabulary terms</p> */
     private static OntModel m_model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
     

@@ -31,6 +31,7 @@ import org.apache.jena.rdf.model.Resource;
  */
 public final class LDT
 {
+    private LDT(){}
     /** <p>The RDF model that holds the vocabulary terms</p> */
     private static OntModel m_model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
     

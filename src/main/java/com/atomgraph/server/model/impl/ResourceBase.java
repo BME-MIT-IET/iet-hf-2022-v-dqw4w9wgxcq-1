@@ -58,7 +58,7 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
 {
     private static final Logger log = LoggerFactory.getLogger(ResourceBase.class);
         
-    private final com.atomgraph.processor.model.Application application;
+    private final com.atomgraph.processor.model.App application;
     private final Ontology ontology;
     private final Optional<TemplateCall> templateCall;
     private final OntResource ontResource;
@@ -88,7 +88,7 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
      */
     @Inject
     public ResourceBase(@Context UriInfo uriInfo, @Context Request request, MediaTypes mediaTypes,
-            Service service, com.atomgraph.processor.model.Application application, Optional<Ontology> ontology, Optional<TemplateCall> templateCall,
+            Service service, com.atomgraph.processor.model.App application, Optional<Ontology> ontology, Optional<TemplateCall> templateCall,
             @Context HttpHeaders httpHeaders, @Context ResourceContext resourceContext)
     {
         this(uriInfo, request, mediaTypes, uriInfo.getAbsolutePath(),
@@ -97,7 +97,7 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
     }
 
     protected ResourceBase(final UriInfo uriInfo, final Request request, final MediaTypes mediaTypes, final URI uri,
-            final Service service, final com.atomgraph.processor.model.Application application, final Ontology ontology, final Optional<TemplateCall> templateCall,
+            final Service service, final com.atomgraph.processor.model.App application, final Ontology ontology, final Optional<TemplateCall> templateCall,
             final HttpHeaders httpHeaders, final ResourceContext resourceContext)
     {
         super(uriInfo, request, mediaTypes, uri, service);
@@ -430,7 +430,7 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
     }
  
     @Override
-    public com.atomgraph.processor.model.Application getApplication()
+    public com.atomgraph.processor.model.App getApplication()
     {
         return application;
     }

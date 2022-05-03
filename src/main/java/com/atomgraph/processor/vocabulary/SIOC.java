@@ -27,6 +27,7 @@ import org.apache.jena.rdf.model.Resource;
  */
 
 public class SIOC {
+    private SIOC(){}
   /**
    * <p>
    * The ontology model that holds the vocabulary terms

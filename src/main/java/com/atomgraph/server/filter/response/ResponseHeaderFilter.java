@@ -48,12 +48,12 @@ public class ResponseHeaderFilter implements ContainerResponseFilter
     {
         response.getHeaders().add(HttpHeaders.LINK, new Link(getUriInfo().getBaseUri(), LDT.base.getURI(), null));
 
-        Optional<Ontology> ontology = getOntology();
-        if (ontology.isPresent()) // if it's not present, Link headers might be forwarded by ProxyResourceBase
-            response.getHeaders().add(HttpHeaders.LINK, new Link(URI.create(ontology.get().getURI()), LDT.ontology.getURI(), null));
-        Optional<TemplateCall> templateCall = getTemplateCall();
-        if (templateCall.isPresent())
-            response.getHeaders().add(HttpHeaders.LINK, new Link(URI.create(templateCall.get().getTemplate().getURI()), LDT.template.getURI(), null));
+        Optional<Ontology> ontologyCurrent = getOntology();
+        if (ontologyCurrent.isPresent()) // if it's not present, Link headers might be forwarded by ProxyResourceBase
+            response.getHeaders().add(HttpHeaders.LINK, new Link(URI.create(ontologyCurrent.get().getURI()), LDT.ontology.getURI(), null));
+        Optional<TemplateCall> templateCallCurrent = getTemplateCall();
+        if (templateCallCurrent.isPresent())
+            response.getHeaders().add(HttpHeaders.LINK, new Link(URI.create(templateCallCurrent.get().getTemplate().getURI()), LDT.template.getURI(), null));
     }
 
     public Optional<Ontology> getOntology()

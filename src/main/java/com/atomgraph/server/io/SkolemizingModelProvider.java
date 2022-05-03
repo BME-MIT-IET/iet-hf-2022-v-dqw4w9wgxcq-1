@@ -27,8 +27,6 @@ import com.atomgraph.processor.util.Skolemizer;
 import javax.ws.rs.HttpMethod;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Model provider that skolemizes read triples against class URI templates in an ontology.
@@ -37,8 +35,6 @@ import org.slf4j.LoggerFactory;
  */
 public class SkolemizingModelProvider extends ValidatingModelProvider
 {
-    private static final Logger log = LoggerFactory.getLogger(SkolemizingModelProvider.class);
-    
     @Context private Request request;
     
     @Override

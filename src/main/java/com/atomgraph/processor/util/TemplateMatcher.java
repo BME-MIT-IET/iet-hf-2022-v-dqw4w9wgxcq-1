@@ -49,16 +49,7 @@ public class TemplateMatcher
     public static class TemplatePrecedence
     {
         
-        static public final Comparator<TemplatePrecedence> COMPARATOR = new Comparator<TemplatePrecedence>()
-        {
-
-            @Override
-            public int compare(TemplatePrecedence template1, TemplatePrecedence template2)
-            {
-                return template2.getPrecedence() - template1.getPrecedence();
-            }
-
-        };
+        static public final Comparator<TemplatePrecedence> COMPARATOR = (t1, t2) -> (t2.getPrecedence() - t1.getPrecedence());
         
         private final Template template;
         private final int precedence;
@@ -161,29 +152,7 @@ public class TemplateMatcher
             while (it.hasNext())
             {
                 Template template = it.next().as(Template.class);
-                // only match templates defined in this ontology - maybe reverse loops?
-                if (template.getIsDefinedBy() != null && template.getIsDefinedBy().equals(ontology))
-                {
-                    if (template.getMatch() == null)
-                    {
-                        if (log.isErrorEnabled()) log.error("Template {} does not have value for {} annotation", template, LDT.match);
-                        throw new OntologyException("Template '" + template + "' does not have value for '" + LDT.match + "' annotation");
-                    }
-
-                    UriTemplate match = template.getMatch();
-                    HashMap<String, String> map = new HashMap<>();
-
-                    if (match.match(path, map))
-                    {
-                        if (log.isTraceEnabled()) log.trace("Path {} matched UriTemplate {}", path, match);
-                        if (log.isTraceEnabled()) log.trace("Path {} matched OntClass {}", path, template);
-                        
-                        TemplatePrecedence precedence = new TemplatePrecedence(template, level * -1);
-                        matches.add(precedence);
-                    }
-                    else
-                        if (log.isTraceEnabled()) log.trace("Path {} did not match UriTemplate {}", path, match);
-                }
+                getMatches(template, path, level, matches);
             }
 
             List<Ontology> importedOntologies = new ArrayList<>(); // collect imports first to avoid CME within iterator
@@ -212,6 +181,33 @@ public class TemplateMatcher
 
         return matches;
     }
+
+    private void getMatches(Template template, CharSequence path, int level, List<TemplatePrecedence> matches)
+    {
+        // only match templates defined in this ontology - maybe reverse loops?
+        if (template.getIsDefinedBy() != null && template.getIsDefinedBy().equals(ontology))
+        {
+            if (template.getMatch() == null)
+            {
+                if (log.isErrorEnabled()) log.error("Template {} does not have value for {} annotation", template, LDT.match);
+                throw new OntologyException("Template '" + template + "' does not have value for '" + LDT.match + "' annotation");
+            }
+
+            UriTemplate match = template.getMatch();
+            HashMap<String, String> map = new HashMap<>();
+
+            if (match.match(path, map))
+            {
+                if (log.isTraceEnabled()) log.trace("Path {} matched UriTemplate {}", path, match);
+                if (log.isTraceEnabled()) log.trace("Path {} matched OntClass {}", path, template);
+                
+                TemplatePrecedence precedence = new TemplatePrecedence(template, level * -1);
+                matches.add(precedence);
+            }
+            else
+                if (log.isTraceEnabled()) log.trace("Path {} did not match UriTemplate {}", path, match);
+        }
+    }
     
     public Template match(CharSequence path)
     {
@@ -236,29 +232,46 @@ public class TemplateMatcher
         List<TemplatePrecedence> precedences = match(ontology, path, 0);
         if (!precedences.isEmpty())
         {
-            // step 1: collect matching Templates with highest import precedence
             List<Template> topMatches = new ArrayList<>();
-            Collections.sort(precedences, TemplatePrecedence.COMPARATOR);
-            TemplatePrecedence maxPrecedence = precedences.get(0);
-            for (TemplatePrecedence precedence : precedences)
-                if (precedence.equals(maxPrecedence)) topMatches.add(precedence.getTemplate());
+            // step 1: collect matching Templates with highest import precedence
+            collectTemplates(topMatches, precedences);
 
             // step 2: Template with the highest priority is the match
-            if (log.isTraceEnabled()) log.trace("{} path matched these Templates: {} (selecting the first UriTemplate)", path, precedences);
-            Collections.sort(topMatches, Template.COMPARATOR);
-            Template match = topMatches.get(0);
-            if (log.isDebugEnabled()) log.debug("Path: {} matched Template: {}", path, match);
+            Template match = highestPriority(topMatches, path, precedences);
             
             // step3: check for conflicts (Templates with equal priority and UriTemplate)
-            for (Template template : topMatches)
-                if (template != match && template.equals(match))
-                    if (log.isWarnEnabled()) log.warn("Path: {} has conflicting Template: {} (it is equal to the matched one)", path, template);
+            conflictCheck(topMatches, match, path);
 
             return match;
         }
         
         if (log.isDebugEnabled()) log.debug("Path {} has no Template match in this OntModel", path);
         return null;
+    }
+
+    private void collectTemplates(List<Template> topMatches, List<TemplatePrecedence> precedences)
+    {
+        
+        Collections.sort(precedences, TemplatePrecedence.COMPARATOR);
+        TemplatePrecedence maxPrecedence = precedences.get(0);
+        for (TemplatePrecedence precedence : precedences)
+            if (precedence.equals(maxPrecedence)) topMatches.add(precedence.getTemplate());
+    }
+
+    private Template highestPriority(List<Template> topMatches, CharSequence path, List<TemplatePrecedence> precedences)
+    {
+        if (log.isTraceEnabled()) log.trace("{} path matched these Templates: {} (selecting the first UriTemplate)", path, precedences);
+        Collections.sort(topMatches, Template.COMPARATOR);
+        Template match = topMatches.get(0);
+        if (log.isDebugEnabled()) log.debug("Path: {} matched Template: {}", path, match);
+        return match;
+    }
+
+    private void conflictCheck(List<Template> topMatches, Template match, CharSequence path)
+    {
+        for (Template template : topMatches)
+                if (template != match && template.equals(match))
+                    if (log.isWarnEnabled()) log.warn("Path: {} has conflicting Template: {} (it is equal to the matched one)", path, template);
     }
     
     public Ontology getOntology()

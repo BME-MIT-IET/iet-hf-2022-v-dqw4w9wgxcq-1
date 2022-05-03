@@ -32,7 +32,7 @@ import org.glassfish.jersey.uri.UriTemplate;
 public interface Template extends OntClass
 {
 
-    static public final Comparator<Template> COMPARATOR = new Comparator<Template>()
+    public static final Comparator<Template> COMPARATOR = new Comparator<Template>()
     {
 
         @Override
