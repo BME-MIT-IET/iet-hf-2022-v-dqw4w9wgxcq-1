@@ -149,7 +149,7 @@ public class TemplateMatcher
             while (it.hasNext())
             {
                 Template template = it.next().as(Template.class);
-                getMatches(template, path, level, matches);
+                getMatches(ontology, template, path, level, matches);
             }
 
             List<Ontology> importedOntologies = new ArrayList<>(); // collect imports first to avoid CME within iterator
@@ -179,7 +179,7 @@ public class TemplateMatcher
         return matches;
     }
 
-    private void getMatches(Template template, CharSequence path, int level, List<TemplatePrecedence> matches)
+    private void getMatches(Ontology ontology, Template template, CharSequence path, int level, List<TemplatePrecedence> matches)
     {
         // only match templates defined in this ontology - maybe reverse loops?
         if (template.getIsDefinedBy() != null && template.getIsDefinedBy().equals(ontology))
