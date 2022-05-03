@@ -179,13 +179,14 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
     @Override
     public Class getSubResource()
     {
-        if (getTemplateCall().isPresent() && getTemplateCall().get().getTemplate().getLoadClass() != null)
+        Optional<TemplateCall> templateCallCurrent = getTemplateCall();
+        if (templateCallCurrent.isPresent() && templateCallCurrent.get().getTemplate().getLoadClass() != null)
         {
-            Resource javaClass = getTemplateCall().get().getTemplate().getLoadClass();
+            Resource javaClass = templateCallCurrent.get().getTemplate().getLoadClass();
             if (!javaClass.isURIResource())
             {
-                if (log.isErrorEnabled()) log.error("ldt:loadClass value of template '{}' is not a URI resource", getTemplateCall().get().getTemplate());
-                throw new OntologyException("ldt:loadClass value of template '" + getTemplateCall().get().getTemplate() + "' is not a URI resource");
+                if (log.isErrorEnabled()) log.error("ldt:loadClass value of template '{}' is not a URI resource", templateCallCurrent.get().getTemplate());
+                throw new OntologyException("ldt:loadClass value of template '" + templateCallCurrent.get().getTemplate() + "' is not a URI resource");
             }
 
             Class clazz = ClsLoader.loadClass(javaClass.getURI());
@@ -205,7 +206,8 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
     @Override
     public Response get()
     {
-        if (!getTemplateCall().isPresent())
+        Optional<TemplateCall> templateCallCurrent = getTemplateCall();
+        if (!templateCallCurrent.isPresent())
         {
             if (log.isDebugEnabled()) log.debug("Resource {} has not matched any ldt:Template, returning 404 Not Found", getURI());
             throw new NotFoundException("Resource has not matched any ldt:Template");
@@ -213,8 +215,8 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
         // cannot be validated in constructor in Jersey 2.x: https://github.com/eclipse-ee4j/jersey/issues/4436
         if (getQueryResource() == null)
         {
-            if (log.isErrorEnabled()) log.error("ldt:query value for template '{}' is missing", getTemplateCall().get().getTemplate());
-            throw new OntologyException("ldt:query value for template '" + getTemplateCall().get().getTemplate() + "' is missing");
+            if (log.isErrorEnabled()) log.error("ldt:query value for template '{}' is missing", templateCall.get().getTemplate());
+            throw new OntologyException("ldt:query value for template '" + templateCall.get().getTemplate() + "' is missing");
         }
         if (!getQueryResource().canAs(com.atomgraph.spinrdf.model.Query.class) &&
                 !getQueryResource().canAs(com.atomgraph.spinrdf.model.TemplateCall.class))
@@ -296,8 +298,12 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
                 !getUpdateResource().canAs(com.atomgraph.spinrdf.model.update.Update.class) &&
                 !getUpdateResource().canAs(com.atomgraph.spinrdf.model.TemplateCall.class))
         {
-            if (log.isErrorEnabled()) log.error("ldt:update value for template '{}' cannot be cast to a sp:Update", getTemplateCall().get().getTemplate());
-            throw new OntologyException("ldt:update value for template '" + getTemplateCall().get().getTemplate() + "' cannot be cast to a sp:Update");
+            Optional<TemplateCall> templateCallCurrent = getTemplateCall();
+            if (templateCallCurrent.isPresent())
+            {
+                if (log.isErrorEnabled()) log.error("ldt:update value for template '{}' cannot be cast to a sp:Update", templateCallCurrent.get().getTemplate());
+                throw new OntologyException("ldt:update value for template '" + templateCallCurrent.get().getTemplate() + "' cannot be cast to a sp:Update");
+            }
         }
 
         if (getUpdate() == null) return Response.status(Status.NOT_IMPLEMENTED).build();
@@ -328,7 +334,11 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
     @Override
     public List<Locale> getLanguages()
     {
-        return getTemplateCall().get().getTemplate().getLanguages();
+        Optional<TemplateCall> templateCallCurrent = getTemplateCall();
+        if (templateCallCurrent.isPresent())
+            return templateCallCurrent.get().getTemplate().getLanguages();
+        else
+            return Collections.emptyList();
     }
         
     /**
@@ -361,7 +371,11 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
      */
     public CacheControl getCacheControl()
     {
-        return getTemplateCall().get().getTemplate().getCacheControl();
+        Optional<TemplateCall> templateCallCurrent = getTemplateCall();
+        if (templateCallCurrent.isPresent())
+            return templateCallCurrent.get().getTemplate().getCacheControl();
+        else
+            return null;
     }
     
     /**

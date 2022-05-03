@@ -18,6 +18,7 @@ package com.atomgraph.server.io;
 
 import org.apache.jena.ontology.Ontology;
 import org.apache.jena.rdf.model.Model;
+import java.util.Optional;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriBuilder;
@@ -58,8 +59,9 @@ public class SkolemizingModelProvider extends ValidatingModelProvider
             {
                 it.close();
             }
-        
-            if (getOntology().isPresent()) return skolemize(getOntology().get(), getUriInfo().getBaseUriBuilder(), getUriInfo().getAbsolutePathBuilder(), super.processRead(model));
+            
+            Optional<Ontology> ontology = getOntology();
+            if (ontology.isPresent()) return skolemize(ontology.get(), getUriInfo().getBaseUriBuilder(), getUriInfo().getAbsolutePathBuilder(), super.processRead(model));
             else return model;
         }
         

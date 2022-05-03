@@ -18,6 +18,7 @@ package com.atomgraph.server.io;
 import com.atomgraph.processor.util.Skolemizer;
 import com.atomgraph.server.exception.SkolemizationException;
 import java.util.Iterator;
+import java.util.Optional;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriBuilder;
@@ -76,7 +77,8 @@ public class SkolemizingDatasetProvider extends ValidatingDatasetProvider
             it.close();
         }
 
-        if (getOntology().isPresent()) return skolemize(getOntology().get(), getUriInfo().getBaseUriBuilder(), getUriInfo().getAbsolutePathBuilder(), model);
+        Optional<Ontology> ontology = getOntology();
+        if (ontology.isPresent()) return skolemize(ontology.get(), getUriInfo().getBaseUriBuilder(), getUriInfo().getAbsolutePathBuilder(), model);
         else return model;
     }
     

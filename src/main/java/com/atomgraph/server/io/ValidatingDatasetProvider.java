@@ -67,10 +67,11 @@ public class ValidatingDatasetProvider extends DatasetProvider
     
     public Dataset validate(Dataset dataset)
     {
-        if (getOntology().isPresent())
+        Optional<Ontology> ontology = getOntology();
+        if (ontology.isPresent())
         {
             // SPIN validation
-            Validator validator = new Validator(getOntology().get().getOntModel());
+            Validator validator = new Validator(ontology.get().getOntModel());
             List<ConstraintViolation> cvs = validator.validate(dataset.getDefaultModel());
             if (!cvs.isEmpty())
             {
@@ -79,7 +80,7 @@ public class ValidatingDatasetProvider extends DatasetProvider
             }
 
             // SHACL validation
-            Shapes shapes = Shapes.parse(getOntology().get().getOntModel().getGraph());
+            Shapes shapes = Shapes.parse(ontology.get().getOntModel().getGraph());
             ValidationReport report = ShaclValidator.get().validate(shapes, dataset.getDefaultModel().getGraph());
             if (!report.conforms())
             {

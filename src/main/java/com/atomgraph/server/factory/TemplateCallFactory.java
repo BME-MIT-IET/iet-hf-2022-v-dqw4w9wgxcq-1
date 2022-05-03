@@ -85,7 +85,7 @@ public class TemplateCallFactory implements Factory<Optional<TemplateCall>>
 
     public Template getTemplate()
     {
-        if (getOntology().isPresent()) return getTemplate(getOntology().get(), getUriInfo());
+        if (ontology.isPresent()) return getTemplate(ontology.get(), getUriInfo());
         
         return null;
     }
