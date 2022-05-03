@@ -5,10 +5,10 @@ A kód manuális áttekintése folyamán a következő problémák merültek fel
 - kikommentezett kódsorok
 - üres metódus
 - túl komplex metódusok
-- string konkatenáció plusz jellel
-- singleton osztályok privát konstruktor nélkül
+- string konkatenáció összeadás operátorral
+- factory osztályok privát konstruktor nélkül
 ## Eredmények és tanulságok
-A felesleges sorok, mezők, importok törlésre kerültek. Üres metódus belsejébe exception dobás került. A túl komplex metódusokat lerövidítettem, kiszerveztem kisebb metódusokba, amelyek meghívásra kerülnek. A singleton osztályokhoz privát konstruktort adtam, hogy ne lehessen belőlük több példányt létrehozni.
+A felesleges sorok, mezők, importok törlésre kerültek. Üres metódus belsejébe exception dobás került. A túl komplex metódusokat lerövidítettem, kiszerveztem kisebb metódusokba, amelyek meghívásra kerülnek. A factory osztályokhoz privát konstruktort adtam, hogy ne lehessen belőlük példányt létrehozni.
 
 Mindenképp fontos manuálisan átnézni a kódot, hiszen így lehet jobban megérteni a program működését, a kód első megírását követően az újraolvasás akár lényeges rövidítésekhez, refaktoráláshoz is vezethet.
 # Statikus analízis eszköz futtatása
