@@ -31,7 +31,7 @@ public class RDFNodeFactory
 {
     private RDFNodeFactory(){}
     
-    public static final RDFNode createTyped(String value, Resource valueType)
+    public static RDFNode createTyped(String value, Resource valueType)
     {
         if (value == null) throw new IllegalArgumentException("Param value cannot be null");
 

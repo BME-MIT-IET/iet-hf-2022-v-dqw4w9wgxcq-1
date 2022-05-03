@@ -33,7 +33,7 @@ public class SIOC {
    * The ontology model that holds the vocabulary terms
    * </p>
    */
-  private static OntModel m_model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
+  private static final OntModel m_model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
 
   /**
    * <p>

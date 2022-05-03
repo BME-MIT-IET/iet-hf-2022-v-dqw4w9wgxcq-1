@@ -215,8 +215,8 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
         // cannot be validated in constructor in Jersey 2.x: https://github.com/eclipse-ee4j/jersey/issues/4436
         if (getQueryResource() == null)
         {
-            if (log.isErrorEnabled()) log.error("ldt:query value for template '{}' is missing", templateCall.get().getTemplate());
-            throw new OntologyException("ldt:query value for template '" + templateCall.get().getTemplate() + "' is missing");
+            if (log.isErrorEnabled()) log.error("ldt:query value for template '{}' is missing", templateCallCurrent.get().getTemplate());
+            throw new OntologyException("ldt:query value for template '" + templateCallCurrent.get().getTemplate() + "' is missing");
         }
         if (!getQueryResource().canAs(com.atomgraph.spinrdf.model.Query.class) &&
                 !getQueryResource().canAs(com.atomgraph.spinrdf.model.TemplateCall.class))
@@ -247,7 +247,7 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
                 build();
             
             if (log.isDebugEnabled()) log.debug("INSERT DATA UpdateRequest");
-            getService().getEndpointAccessor().update(insertData, Collections.<URI>emptyList(), Collections.<URI>emptyList());
+            getService().getEndpointAccessor().update(insertData, Collections.emptyList(), Collections.emptyList());
             
             return Response.ok().build();
         }
@@ -309,7 +309,7 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
         if (getUpdate() == null) return Response.status(Status.NOT_IMPLEMENTED).build();
 
         if (log.isDebugEnabled()) log.debug("DELETE UpdateRequest: {}", getUpdate());
-        getService().getEndpointAccessor().update(getUpdate(), Collections.<URI>emptyList(), Collections.<URI>emptyList());
+        getService().getEndpointAccessor().update(getUpdate(), Collections.emptyList(), Collections.emptyList());
 
         return Response.noContent().build(); // subsequent GET might still return 200 OK, depending on query solution map
     }

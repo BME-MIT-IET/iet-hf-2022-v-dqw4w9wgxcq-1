@@ -137,7 +137,7 @@ public class TemplateImpl extends OntClassImpl implements Template
     {
         Template lowest = getSelfOrSuperWithProperty(LDT.priority);
         if (lowest != null) return lowest.getProperty(LDT.priority).getDouble();
-        else return Double.valueOf(0);
+        else return (double) 0;
     }
 
     @Override
@@ -149,7 +149,7 @@ public class TemplateImpl extends OntClassImpl implements Template
         
         return templates.stream().
                 flatMap(t -> t.getLocalParameters().entrySet().stream()). // stream param map entries
-                collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+                collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
     
     @Override
@@ -337,15 +337,13 @@ public class TemplateImpl extends OntClassImpl implements Template
     @Override
     public String toString()
     {
-        return new StringBuilder().
-        append("[<").
-        append(getURI()).
-        append(">: \"").
-        append(getMatch()).
-        append("\", ").
-        append(Double.toString(getPriority())).
-        append("]").
-        toString();
+        return "[<" +
+                getURI() +
+                ">: \"" +
+                getMatch() +
+                "\", " +
+                getPriority() +
+                "]";
     }
     
 }

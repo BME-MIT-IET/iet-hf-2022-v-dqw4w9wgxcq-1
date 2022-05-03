@@ -23,7 +23,6 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import com.atomgraph.processor.exception.OntologyException;
@@ -92,13 +91,11 @@ public class TemplateMatcher
         @Override
         public String toString()
         {
-            return new StringBuilder().
-            append("[<").
-            append(getTemplate().getURI()).
-            append(">, ").
-            append(getPrecedence()).
-            append("]").
-            toString();
+            return "[<" +
+                    getTemplate().getURI() +
+                    ">, " +
+                    getPrecedence() +
+                    "]";
         }
         
     }
@@ -252,7 +249,7 @@ public class TemplateMatcher
     private void collectTemplates(List<Template> topMatches, List<TemplatePrecedence> precedences)
     {
         
-        Collections.sort(precedences, TemplatePrecedence.COMPARATOR);
+        precedences.sort(TemplatePrecedence.COMPARATOR);
         TemplatePrecedence maxPrecedence = precedences.get(0);
         for (TemplatePrecedence precedence : precedences)
             if (precedence.equals(maxPrecedence)) topMatches.add(precedence.getTemplate());
@@ -261,7 +258,7 @@ public class TemplateMatcher
     private Template highestPriority(List<Template> topMatches, CharSequence path, List<TemplatePrecedence> precedences)
     {
         if (log.isTraceEnabled()) log.trace("{} path matched these Templates: {} (selecting the first UriTemplate)", path, precedences);
-        Collections.sort(topMatches, Template.COMPARATOR);
+        topMatches.sort(Template.COMPARATOR);
         Template match = topMatches.get(0);
         if (log.isDebugEnabled()) log.debug("Path: {} matched Template: {}", path, match);
         return match;

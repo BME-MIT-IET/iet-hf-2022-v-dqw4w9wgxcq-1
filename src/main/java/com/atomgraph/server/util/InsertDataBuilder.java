@@ -57,7 +57,7 @@ public class InsertDataBuilder
         return this;
     }
 
-    public UpdateRequest build() throws UnsupportedEncodingException, IOException
+    public UpdateRequest build() throws IOException
     {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
         {
