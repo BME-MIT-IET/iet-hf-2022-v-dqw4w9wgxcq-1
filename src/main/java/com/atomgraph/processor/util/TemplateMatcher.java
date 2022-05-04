@@ -48,7 +48,7 @@ public class TemplateMatcher
     public static class TemplatePrecedence
     {
         
-        static public final Comparator<TemplatePrecedence> COMPARATOR = (t1, t2) -> (t2.getPrecedence() - t1.getPrecedence());
+        public static final Comparator<TemplatePrecedence> COMPARATOR = (t1, t2) -> (t2.getPrecedence() - t1.getPrecedence());
         
         private final Template template;
         private final int precedence;
@@ -186,8 +186,7 @@ public class TemplateMatcher
         {
             if (template.getMatch() == null)
             {
-                if (log.isErrorEnabled()) log.error("Template {} does not have value for {} annotation", template, LDT.match);
-                throw new OntologyException("Template '" + template + "' does not have value for '" + LDT.match + "' annotation");
+                matchError(template);
             }
 
             UriTemplate match = template.getMatch();
@@ -204,6 +203,12 @@ public class TemplateMatcher
             else
                 if (log.isTraceEnabled()) log.trace("Path {} did not match UriTemplate {}", path, match);
         }
+    }
+
+    private void matchError(Template template)
+    {
+        if (log.isErrorEnabled()) log.error("Template {} does not have value for {} annotation", template, LDT.match);
+        throw new OntologyException("Template '" + template + "' does not have value for '" + LDT.match + "' annotation");
     }
     
     public Template match(CharSequence path)
