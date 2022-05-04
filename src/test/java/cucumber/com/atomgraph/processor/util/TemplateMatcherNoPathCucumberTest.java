@@ -1,5 +1,6 @@
 package cucumber.com.atomgraph.processor.util;
 
+import com.atomgraph.processor.exception.OntologyException;
 import com.atomgraph.processor.model.Template;
 import com.atomgraph.processor.model.impl.TemplateImpl;
 import com.atomgraph.processor.util.TemplateMatcher;
@@ -9,18 +10,16 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.jena.enhanced.BuiltinPersonalities;
 import org.apache.jena.ontology.Ontology;
-import org.apache.jena.ontology.OntologyException;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.sys.JenaSystem;
 import org.apache.jena.vocabulary.RDFS;
-
-import static org.junit.Assert.assertTrue;
+import org.assertj.core.api.Assertions;
 
 public class TemplateMatcherNoPathCucumberTest {
     private Ontology invalidOntology;
     private String path;
 
-    TemplateMatcherNoPathCucumberTest() {
+    public TemplateMatcherNoPathCucumberTest() {
         JenaSystem.init();
         BuiltinPersonalities.model.add(Template.class, TemplateImpl.factory);
     }
@@ -40,10 +39,7 @@ public class TemplateMatcherNoPathCucumberTest {
 
     @Then("we get an exception in no path test")
     public void we_get_an_exception_in_no_path_test() {
-        try {
-            new TemplateMatcher(invalidOntology).match(path);
-        } catch (OntologyException ex) {
-            assertTrue(true);
-        }
+        Assertions.assertThatThrownBy(() ->
+                new TemplateMatcher(invalidOntology).match(path)).isInstanceOf(OntologyException.class);
     }
 }
