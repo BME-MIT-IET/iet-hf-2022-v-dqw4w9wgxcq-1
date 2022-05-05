@@ -19,3 +19,13 @@ Feature: Skolemizer working well
     Given the expected skolemizer of invalid super class skolemizer test
     When the actual skolemizer is inheritance of this invalid superclass
     Then the invalid superclass skolemizer and its inherit are equal
+
+  Scenario: Skolemizer absolute path case
+    Given the expected skolemizer of absolute path skolemizer test
+    When the actual skolemizer is gave of absolute path skolemizer test
+    Then the expected and the actual skolemizer in absolute path test are equal
+
+  Scenario: Skolemizer primary topic case
+    Given the expected skolemizer of primary topic skolemizer test
+    When the actual skolemizer is gave of primary topic skolemizer test
+    Then the expected and the actual skolemizer in primary topic test are equal
