@@ -1,4 +1,4 @@
-package cucumber.com.atomgraph.processor.util;
+package cucumber.com.atomgraph.processor.util.Skolemizer;
 
 import com.atomgraph.processor.util.Skolemizer;
 import com.atomgraph.processor.vocabulary.LDT;
@@ -22,13 +22,13 @@ import java.net.URI;
 
 import static org.junit.Assert.assertEquals;
 
-public class SkolemizerInheritenceCucumberTest {
+public class SkolemizerInheritanceCucumberTest {
     private final UriBuilder baseUriBuilder = UriBuilder.fromUri("http://base/"), absolutePathBuilder = UriBuilder.fromUri("http://base/absolute/path");
     private URI expected,actual;
     private final Resource subInst;
     private final Ontology ontology;
 
-    public SkolemizerInheritenceCucumberTest() {
+    public SkolemizerInheritanceCucumberTest() {
         ontology = ModelFactory.createOntologyModel().createOntology("http://test/ontology");
         Ontology importedOntology = ontology.getOntModel().createOntology("http://test/ontology/import");
         ontology.addImport(importedOntology);
@@ -52,8 +52,8 @@ public class SkolemizerInheritenceCucumberTest {
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("the expected super skolemizer")
-    public void the_excepted_super_skolemizer(){
+    @Given("the expected skolemizer of inheritance test, which is a superclass")
+    public void the_excepted_skolemizer_of_inheritance_test_which_is_a_superclass(){
         expected = absolutePathBuilder.clone().path("super-" + "Whateverest").build();
     }
 
@@ -62,8 +62,8 @@ public class SkolemizerInheritenceCucumberTest {
         actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(subInst);
     }
 
-    @Then("they are equal skolemizers")
-    public void they_are_equal_skolemizers() {
+    @Then("the super and the inherit skolemizer are equal")
+    public void the_super_and_the_inherit_skolemizer_are_equal() {
         assertEquals(expected, actual);
     }
 }
