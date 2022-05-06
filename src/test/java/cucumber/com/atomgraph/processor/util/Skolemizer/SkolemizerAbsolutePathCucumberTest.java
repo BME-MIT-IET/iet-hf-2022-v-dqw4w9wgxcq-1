@@ -46,18 +46,18 @@ public class SkolemizerAbsolutePathCucumberTest {
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("the expected skolemizer of absolute path skolemizer test")
-    public void the_excepted_skolemizer_of_absolute_path_skolemizer_test() {
+    @Given("the expected uri of absolute path skolemizer test")
+    public void the_excepted_uri_of_absolute_path_skolemizer_test() {
         expected = baseUriBuilder.clone().path("ABCDEFGHI").build();
     }
 
-    @When("the actual skolemizer is gave of absolute path skolemizer test")
-    public void the_actual_skolemizer_is_gave_of_absolute_path_skolemizer_test() {
+    @When("the actual uri is gave of absolute path skolemizer test")
+    public void the_actual_uri_is_gave_of_absolute_path_skolemizer_test() {
         actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(inst);
     }
 
-    @Then("the expected and the actual skolemizer in absolute path test are equal")
-    public void the_expected_and_the_actual_skolemizer_in_absolute_path_test_are_equal() {
+    @Then("the expected and the actual uri in absolute path test are equal")
+    public void the_expected_and_the_actual_uri_in_absolute_path_test_are_equal() {
         assertEquals(expected, actual);
     }
 }
