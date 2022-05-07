@@ -42,18 +42,18 @@ public class SkolemizerNoPathCucumberTest {
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("the expected uri of no path skolemizer, what is null")
-    public void the_excepted_uri_of_no_path_skolemizer_what_is_null(){
+    @Given("the expected uri in no path test, which is null")
+    public void the_expected_uri_in_no_path_test_which_is_null(){
         expected = null;
     }
 
-    @When("the actual uri has no path")
-    public void the_actual_uri_has_no_path() {
+    @When("the actual uri has no path in no path test")
+    public void the_actual_uri_has_no_path_in_no_path_test() {
         actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(inst);
     }
 
-    @Then("the null and the pathless uri are equal")
-    public void they_null_and_the_pathless_uri_are_equal() {
+    @Then("the null and the pathless uri are equal in no path test")
+    public void they_null_and_the_pathless_uri_are_equal_in_no_path_test() {
         assertEquals(expected, actual);
     }
 }

@@ -10,55 +10,60 @@ import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.Ontology;
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
 import static org.junit.Assert.assertEquals;
 
-public class SkolemizerPrimaryTopicCucumberTest {
+public class SkolemizerInheritanceCucumberTest {
     private final UriBuilder baseUriBuilder = UriBuilder.fromUri("http://base/"), absolutePathBuilder = UriBuilder.fromUri("http://base/absolute/path");
-    private URI expected, actual;
-    private final Resource thing;
+    private URI expected,actual;
+    private final Resource subInst;
     private final Ontology ontology;
 
-    public SkolemizerPrimaryTopicCucumberTest() {
+    public SkolemizerInheritanceCucumberTest() {
         ontology = ModelFactory.createOntologyModel().createOntology("http://test/ontology");
-        OntClass cls = ontology.getOntModel().createClass("http://test/ontology/class");
-        cls.addLiteral(LDT.path, "thing-{isPrimaryTopicOf.identifier}");
+        Ontology importedOntology = ontology.getOntModel().createOntology("http://test/ontology/import");
+        ontology.addImport(importedOntology);
+        OntClass superClass = importedOntology.getOntModel().createClass("http://test/ontology/super-class");
+        superClass.addLiteral(LDT.path, "super-{title}");
 
-        Model model = ModelFactory.createDefaultModel();
-        Resource doc = model.createResource().
-                addLiteral(DCTerms.identifier, "123456789");
-        thing = model.createResource().
+        OntClass cls = ontology.getOntModel().createClass("http://test/ontology/class");
+        cls.addProperty(RDFS.subClassOf, FOAF.Document).
+                addProperty(RDFS.subClassOf, superClass);
+
+        subInst = ModelFactory.createDefaultModel().
+                createResource().
                 addProperty(RDF.type, cls).
-                addProperty(FOAF.isPrimaryTopicOf, doc);
+                addLiteral(DCTerms.title, "Whateverest");
     }
 
-    public Skolemizer getSkolemizer(OntDocumentManager ontMgr, OntModel ontModel, String ontologyURI) {
+    public Skolemizer getSkolemizer(OntDocumentManager ontMgr, OntModel ontModel, String ontologyURI)
+    {
         ontMgr.addModel(ontologyURI, ontModel);
         Ontology ontology = new OntologyLoader(ontMgr, ontologyURI, ontModel.getSpecification(), true).getOntology();
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("the expected uri in primary topic test")
-    public void the_excepted_uri_in_primary_topic_test() {
-        expected = absolutePathBuilder.clone().path("thing-" + "123456789").build();
+    @Given("the expected skolemizer of inheritance test, which is a superclass")
+    public void the_excepted_skolemizer_of_inheritance_test_which_is_a_superclass(){
+        expected = absolutePathBuilder.clone().path("super-" + "Whateverest").build();
     }
 
-    @When("the actual uri is gave in primary topic test")
-    public void the_actual_uri_is_gave_in_primary_topic_test() {
-        actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(thing);
+    @When("the actual skolemizer is its inherit")
+    public void the_actual_skolemizer_is_its_inherit() {
+        actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(subInst);
     }
 
-    @Then("the expected and the actual uri are equal in primary topic test")
-    public void the_expected_and_the_actual_uri_are_equal_in_primary_topic_test() {
+    @Then("the super and the inherit skolemizer are equal")
+    public void the_super_and_the_inherit_skolemizer_are_equal() {
         assertEquals(expected, actual);
     }
 }

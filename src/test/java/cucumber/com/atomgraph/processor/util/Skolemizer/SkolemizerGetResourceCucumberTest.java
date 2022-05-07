@@ -23,13 +23,13 @@ public class SkolemizerGetResourceCucumberTest {
         first = model.createResource().addLiteral(DCTerms.title, "First").addProperty(FOAF.primaryTopic, second);
     }
 
-    @Given("the name of result of get resource skolemizer test, what is {string}")
-    public void the_name_of_result_of_get_resource_skolemizer_test_what_is(String name) {
+    @Given("the name of result in get resource test, what is {string}")
+    public void the_name_of_result_in_get_resource_test_what_is(String name) {
         result = Skolemizer.getResource(first, name);
     }
 
-    @When("the expected resource of get resource skolemizer test, what is {string}")
-    public void the_expected_resource_of_get_resource_skolemizer_test_what_is(String expectedString) {
+    @When("the expected resource in get resource test, what is {string}")
+    public void the_expected_resource_in_get_resource_test_what_is(String expectedString) {
         if ("second".equals(expectedString)) {
             expected = second;
         } else {
@@ -37,8 +37,8 @@ public class SkolemizerGetResourceCucumberTest {
         }
     }
 
-    @Then("the expected and the result resource in get resource test are equal")
-    public void the_expected_and_the_result_resource_in_get_resource_test_are_equal() {
+    @Then("the expected and the result resource are equal in get resource test")
+    public void the_expected_and_the_result_resource_are_equal_in_get_resource_test() {
         assertEquals(expected, result);
     }
 }

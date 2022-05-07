@@ -34,20 +34,20 @@ public class SkolemizerGetNameValueMapCucumberTest {
         first = model.createResource().addLiteral(DCTerms.title, firstTitle).addProperty(FOAF.primaryTopic, second);
     }
 
-    @Given("the expected map of get name value map skolemizer test")
-    public void the_expected_map_of_get_name_value_map_skolemizer_test() {
+    @Given("the expected map in get name value map test")
+    public void the_expected_map_in_get_name_value_map_test() {
         expected = new HashMap<>();
         expected.put("title", firstTitle.getString());
         expected.put("primaryTopic.title", secondTitle.getString());
     }
 
-    @When("the result map is calculable of get name value map skolemizer test")
-    public void the_result_map_is_calculable_of_get_name_value_map_skolemizer_test() {
+    @When("the result map is calculable in get name value map test")
+    public void the_result_map_is_calculable_in_get_name_value_map_test() {
         result = Skolemizer.getNameValueMap(first, parser);
     }
 
-    @Then("the expected and the result map in get name value map test are equal")
-    public void the_expected_and_the_result_map_in_get_name_value_map_test_are_equal() {
+    @Then("the expected and the result map are equal in get name value map test")
+    public void the_expected_and_the_result_map_are_equal_in_get_name_value_map_test() {
         assertEquals(expected, result);
     }
 }

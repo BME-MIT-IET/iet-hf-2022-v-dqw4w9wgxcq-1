@@ -1,64 +1,64 @@
-Feature: Skolemizer working well
+Feature: Skolemizer
 
-  Scenario: Skolemizer inheritance case
-    Given the expected skolemizer of inheritance test, which is a superclass
-    When the actual skolemizer is its inherit
-    Then the super and the inherit skolemizer are equal
+  Scenario: Inheritance
+    Given the expected skolemizer in inheritance test, which is a superclass
+    When the actual skolemizer in inheritance test, which is its inherit
+    Then the super and the inherit skolemizer are equal in inheritance test
 
-  Scenario: Skolemizer no path case
-    Given the expected uri of no path skolemizer, what is null
-    When the actual uri has no path
-    Then the null and the pathless uri are equal
+  Scenario: No path
+    Given the expected uri in no path test, which is null
+    When the actual uri has no path in no path test
+    Then the null and the pathless uri are equal in no path test
 
-  Scenario: Skolemizer invalid type class case
-    Given the expected uri of invalid class type skolemizer, what is null
-    When the actual uri's class type is invalid
-    Then the null and the invalid class type skolemizer are equal
+  Scenario: Invalid type class
+    Given the expected uri in invalid class type test, which is null
+    When the actual uri's class type is invalid in invalid class type test
+    Then the null and the invalid class type skolemizer are equal in invalid class type test
 
-  Scenario: Skolemizer invalid super class case
-    Given the expected uri of invalid super class skolemizer test
-    When the actual uri is inheritance of this invalid superclass
-    Then the invalid superclass uri and its inherit are equal
+  Scenario: Invalid super class
+    Given the expected uri in invalid super class test
+    When the actual uri is inheritance of this invalid superclass in invalid super class test
+    Then the invalid superclass uri and its inherit are equal in invalid super class test
 
-  Scenario: Skolemizer absolute path case
-    Given the expected uri of absolute path skolemizer test
-    When the actual uri is gave of absolute path skolemizer test
-    Then the expected and the actual uri in absolute path test are equal
+  Scenario: Absolute path
+    Given the expected uri in absolute path test
+    When the actual uri is gave in absolute path test
+    Then the expected and the actual uri are equal in absolute path test
 
-  Scenario: Skolemizer primary topic case
-    Given the expected uri of primary topic skolemizer test
-    When the actual uri is gave of primary topic skolemizer test
-    Then the expected and the actual uri in primary topic test are equal
+  Scenario: Primary topic
+    Given the expected uri in primary topic test
+    When the actual uri is gave in primary topic test
+    Then the expected and the actual uri are equal in primary topic test
 
-  Scenario: Skolemizer has value restriction path case
-    Given the expected uri of has value restriction path skolemizer test
-    When the actual uri is gave of has value restriction path skolemizer test
-    Then the expected and the actual uri in has value restriction path test are equal
+  Scenario: Has value restriction path
+    Given the expected uri in has value restriction path test
+    When the actual uri is gave in has value restriction path test
+    Then the expected and the actual uri are equal in has value restriction path test
 
-  Scenario: Skolemizer all values from restriction path case
-    Given the expected uri of all values from restriction path skolemizer test
-    When the actual uri is gave of all values from restriction path skolemizer test
-    Then the expected and the actual uri in all values from restriction path test are equal
+  Scenario: All values from restriction path
+    Given the expected uri in all values from restriction path test
+    When the actual uri is gave in all values from restriction path test
+    Then the expected and the actual uri are equal in all values from restriction path test
 
-  Scenario: Skolemizer fragment case
-    Given the expected uri of fragment skolemizer test
-    When the actual uri is gave of fragment skolemizer test
-    Then the expected and the actual uri in fragment test are equal
+  Scenario: Fragment
+    Given the expected uri in fragment test
+    When the actual uri is gave in fragment test
+    Then the expected and the actual uri are equal in fragment test
 
-  Scenario: Skolemizer invalid path case
-    Given an invalid resource of invalid path test
-    When the model and the uri are valid of invalid path test
+  Scenario: Invalid path
+    Given an invalid resource in invalid path test
+    When the model and the uri are valid in invalid path test
     Then we get an exception when we want get the skolemizer in invalid path test
 
-  Scenario: Skolemizer get name value map case
-    Given the expected map of get name value map skolemizer test
-    When the result map is calculable of get name value map skolemizer test
-    Then the expected and the result map in get name value map test are equal
+  Scenario: Get name value map
+    Given the expected map in get name value map test
+    When the result map is calculable in get name value map test
+    Then the expected and the result map are equal in get name value map test
 
-  Scenario Outline: Skolemizer get literal case
-    Given the name path of get literal skolemizer test, what is "<namePath>"
-    When the expected literal of get literal skolemizer test, what is "<expected>"
-    Then the expected and the result literal in get literal test are equal
+  Scenario Outline: Get literal
+    Given the name path in get literal test, what is "<namePath>"
+    When the expected literal in get literal test, what is "<expected>"
+    Then the expected and the result literal are equal in get literal test
 
     Examples:
     | namePath            | expected |
@@ -67,10 +67,10 @@ Feature: Skolemizer working well
     | primaryTopic        | null     |
     | whatever            | null     |
 
-  Scenario Outline: Skolemizer get resource case
-    Given the name of result of get resource skolemizer test, what is "<name>"
-    When the expected resource of get resource skolemizer test, what is "<expected>"
-    Then the expected and the result resource in get resource test are equal
+  Scenario Outline: Get resource
+    Given the name of result in get resource test, what is "<name>"
+    When the expected resource in get resource test, what is "<expected>"
+    Then the expected and the result resource are equal in get resource test
 
     Examples:
       | name                | expected |

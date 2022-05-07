@@ -44,18 +44,18 @@ public class SkolemizerFragmentCucumberTest {
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("the expected uri of fragment skolemizer test")
-    public void the_excepted_uri_of_fragment_skolemizer_test() {
+    @Given("the expected uri in fragment test")
+    public void the_excepted_uri_in_fragment_test() {
         expected = absolutePathBuilder.clone().path(id).fragment(fragment).build();
     }
 
-    @When("the actual uri is gave of fragment skolemizer test")
-    public void the_actual_uri_is_gave_of_fragment_skolemizer_test() {
+    @When("the actual uri is gave in fragment test")
+    public void the_actual_uri_is_gave_in_fragment_test() {
         actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(inst);
     }
 
-    @Then("the expected and the actual uri in fragment test are equal")
-    public void the_expected_and_the_actual_uri_in_fragment_test_are_equal() {
+    @Then("the expected and the actual uri are equal in fragment test")
+    public void the_expected_and_the_actual_uri_are_equal_in_fragment_test() {
         assertEquals(expected, actual);
     }
 }

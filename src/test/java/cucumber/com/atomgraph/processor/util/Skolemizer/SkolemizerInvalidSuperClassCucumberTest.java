@@ -49,18 +49,18 @@ public class SkolemizerInvalidSuperClassCucumberTest {
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("the expected uri of invalid super class skolemizer test")
-    public void the_excepted_uri_of_invalid_super_class_skolemizer_test(){
+    @Given("the expected uri in invalid super class test")
+    public void the_expected_uri_in_invalid_super_class_test(){
         expected = absolutePathBuilder.clone().path("Whateverest").build();
     }
 
-    @When("the actual uri is inheritance of this invalid superclass")
-    public void the_actual_uri_is_inheritance_of_this_invalid_superclass() {
+    @When("the actual uri is inheritance of this invalid superclass in invalid super class test")
+    public void the_actual_uri_is_inheritance_of_this_invalid_superclass_in_invalid_super_class_test() {
         actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(inst);
     }
 
-    @Then("the invalid superclass uri and its inherit are equal")
-    public void the_invalid_superclass_uri_and_its_inherit_are_equal() {
+    @Then("the invalid superclass uri and its inherit are equal in invalid super class test")
+    public void the_invalid_superclass_uri_and_its_inherit_are_equal_in_invalid_super_class_test() {
         assertEquals(expected, actual);
     }
 }

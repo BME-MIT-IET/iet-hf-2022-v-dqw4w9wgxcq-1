@@ -49,18 +49,18 @@ public class SkolemizerHasValueRestrictionParentCucumberTest {
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("the expected uri of has value restriction path skolemizer test")
-    public void the_excepted_uri_of_has_value_restriction_path_skolemizer_test() {
+    @Given("the expected uri in has value restriction path test")
+    public void the_excepted_uri_in_has_value_restriction_path_test() {
         expected = UriBuilder.fromUri(hasValue).path("hv-" + id).build();
     }
 
-    @When("the actual uri is gave of has value restriction path skolemizer test")
-    public void the_actual_uri_is_gave_of_has_value_restriction_path_skolemizer_test() {
+    @When("the actual uri is gave in has value restriction path test")
+    public void the_actual_uri_is_gave_of_has_value_restriction_path_test() {
         actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(inst);
     }
 
-    @Then("the expected and the actual uri in has value restriction path test are equal")
-    public void the_expected_and_the_actual_uri_in_has_value_restriction_path_test_are_equal() {
+    @Then("the expected and the actual uri are equal in has value restriction path test")
+    public void the_expected_and_the_actual_uri_are_equal_in_has_value_restriction_path_test() {
         assertEquals(expected, actual);
     }
 }
