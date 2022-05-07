@@ -1,4 +1,4 @@
-package cucumber.com.atomgraph.processor.model.impl;
+package cucumber.com.atomgraph.processor.model.impl.TemplateCall;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
