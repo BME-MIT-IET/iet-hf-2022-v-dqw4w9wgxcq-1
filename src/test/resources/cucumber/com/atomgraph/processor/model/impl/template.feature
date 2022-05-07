@@ -39,3 +39,8 @@ Feature: Templates are behaving as intended
     Given super templates with a load class exists
     When load class is asked for
     Then load class is provided
+
+  Scenario: Inherited fragment template test
+    Given super templates with a fragment template exists
+    When fragment template is asked for
+    Then fragment template is provided
