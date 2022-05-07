@@ -19,7 +19,7 @@ Feature: Template matcher
     When the path is valid in no path test
     Then we get an exception in no path test
 
-  Scenario: Template with numerical path
+  Scenario: Numerical path
     Given an invalid template in numerical path test
     When the path is valid in numerical path test
     Then we get an exception in numerical path test
