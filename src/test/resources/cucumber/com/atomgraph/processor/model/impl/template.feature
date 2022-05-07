@@ -14,3 +14,8 @@ Feature: Templates are behaving as intended
     Given super templates and a match exists
     When match is asked for
     Then match is provided
+
+  Scenario: Inherited query test
+    Given super templates and a query exists
+    When query is asked for
+    Then query is provided
