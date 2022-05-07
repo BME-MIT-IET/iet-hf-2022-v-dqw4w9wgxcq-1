@@ -34,3 +34,8 @@ Feature: Templates are behaving as intended
     Given super templates with a cache control exists
     When cache control is asked for
     Then cache control is provided
+
+  Scenario: Inherited load class test
+    Given super templates with a load class exists
+    When load class is asked for
+    Then load class is provided
