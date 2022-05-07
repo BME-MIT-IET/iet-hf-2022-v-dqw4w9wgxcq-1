@@ -64,18 +64,18 @@ public class SkolemizerAllValuesFromRestrictionParentCucumberTest {
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("the expected uri of all values from restriction path skolemizer test")
-    public void the_excepted_uri_of_all_values_from_restriction_path_skolemizer_test() {
+    @Given("the expected uri in all values from restriction path test")
+    public void the_excepted_uri_in_all_values_from_restriction_path_test() {
         expected = UriBuilder.fromUri(hasValue).path("avf-" + id).build();
     }
 
-    @When("the actual uri is gave of all values from restriction path skolemizer test")
-    public void the_actual_uri_is_gave_of_all_values_from_restriction_path_skolemizer_test() {
+    @When("the actual uri is gave in all values from restriction path test")
+    public void the_actual_uri_is_gave_in_all_values_from_restriction_path_test() {
         actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(inst);
     }
 
-    @Then("the expected and the actual uri in all values from restriction path test are equal")
-    public void the_expected_and_the_actual_uri_in_all_values_from_restriction_path_test_are_equal() {
+    @Then("the expected and the actual uri are equal in all values from restriction path test")
+    public void the_expected_and_the_actual_uri_are_equal_in_all_values_from_restriction_path_test() {
         assertEquals(expected, actual);
     }
 }
