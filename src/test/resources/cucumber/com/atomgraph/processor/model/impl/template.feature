@@ -29,3 +29,8 @@ Feature: Templates are behaving as intended
     Given super templates with a priority exists
     When priority is asked for
     Then priority is provided
+
+  Scenario: Inherited cache control test
+    Given super templates with a cache control exists
+    When cache control is asked for
+    Then cache control is provided
