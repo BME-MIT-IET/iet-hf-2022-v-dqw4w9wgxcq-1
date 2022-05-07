@@ -44,15 +44,15 @@ public class SkolemizerInvalidPathCucumberTest {
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("an invalid resource of invalid path test")
-    public void an_invalid_resource_of_invalid_path_test() {
+    @Given("an invalid resource in invalid path test")
+    public void an_invalid_resource_in_invalid_path_test() {
         invalid = ModelFactory.createDefaultModel().
                 createResource().
                 addProperty(RDF.type, cls);
     }
 
-    @When("the model and the uri are valid of invalid path test")
-    public void the_model_and_the_uri_are_valid_of_invalid_path_test() {
+    @When("the model and the uri are valid in invalid path test")
+    public void the_model_and_the_uri_are_valid_in_invalid_path_test() {
         model = ontology.getOntModel();
         uri = ontology.getURI();
     }

@@ -52,18 +52,18 @@ public class SkolemizerInheritanceCucumberTest {
         return new Skolemizer(ontology, baseUriBuilder, absolutePathBuilder);
     }
 
-    @Given("the expected skolemizer of inheritance test, which is a superclass")
-    public void the_excepted_skolemizer_of_inheritance_test_which_is_a_superclass(){
+    @Given("the expected skolemizer in inheritance test, which is a superclass")
+    public void the_excepted_skolemizer_in_inheritance_test_which_is_a_superclass(){
         expected = absolutePathBuilder.clone().path("super-" + "Whateverest").build();
     }
 
-    @When("the actual skolemizer is its inherit")
-    public void the_actual_skolemizer_is_its_inherit() {
+    @When("the actual skolemizer in inheritance test, which is its inherit")
+    public void the_actual_skolemizer_in_inheritance_test_which_is_its_inherit() {
         actual = getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(subInst);
     }
 
-    @Then("the super and the inherit skolemizer are equal")
-    public void the_super_and_the_inherit_skolemizer_are_equal() {
+    @Then("the super and the inherit skolemizer are equal in inheritance test")
+    public void the_super_and_the_inherit_skolemizer_are_equal_in_inheritance_test() {
         assertEquals(expected, actual);
     }
 }

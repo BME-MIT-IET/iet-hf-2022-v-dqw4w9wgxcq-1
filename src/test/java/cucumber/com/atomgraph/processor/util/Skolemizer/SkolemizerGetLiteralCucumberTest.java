@@ -31,13 +31,13 @@ public class SkolemizerGetLiteralCucumberTest {
                 addProperty(FOAF.primaryTopic, second);
     }
 
-    @Given("the name path of get literal skolemizer test, what is {string}")
-    public void the_name_path_of_get_literal_skolemizer_test_what_is(String namePath) {
+    @Given("the name path in get literal test, what is {string}")
+    public void the_name_path_in_get_literal_test_what_is(String namePath) {
         result = Skolemizer.getLiteral(first, namePath);
     }
 
-    @When("the expected literal of get literal skolemizer test, what is {string}")
-    public void the_expected_literal_of_get_literal_skolemizer_test_what_is(String expectedString) {
+    @When("the expected literal in get literal test, what is {string}")
+    public void the_expected_literal_in_get_literal_test_what_is(String expectedString) {
         switch(expectedString) {
             case "first": expected = firstTitle; break;
             case "second": expected = secondTitle; break;
@@ -45,8 +45,8 @@ public class SkolemizerGetLiteralCucumberTest {
         }
     }
 
-    @Then("the expected and the result literal in get literal test are equal")
-    public void the_expected_and_the_result_literal_in_get_literal_test_are_equal() {
+    @Then("the expected and the result literal are equal in get literal test")
+    public void the_expected_and_the_result_literal_are_equal_in_get_literal_test() {
         assertEquals(expected, result);
     }
 }
