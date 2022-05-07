@@ -25,6 +25,6 @@ public class TemplateCallImplGetQuerySMCucumberTest {
 
     @Then("query solution map is provided")
     public void query_solution_map_is_provided() {
-        assertEquals(qsm.asMap(), source.getCall().getQuerySolutionMap().asMap());
+        assertEquals(qsm.asMap(), askedFor.asMap());
     }
 }
