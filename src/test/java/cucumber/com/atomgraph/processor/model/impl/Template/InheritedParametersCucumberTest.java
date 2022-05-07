@@ -29,7 +29,6 @@ public class InheritedParametersCucumberTest {
         superSuperParameter = source.getSuperSuperTemplate().getPropertyResourceValue(LDT.param);
         superParametersOverriding.add(superSuperParameter);
         superParametersOverriding.add(source.getSuperTemplateOverriding().getPropertyResourceValue(LDT.param));
-
     }
 
     @When("parameters are asked for")
