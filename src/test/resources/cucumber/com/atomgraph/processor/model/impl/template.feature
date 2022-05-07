@@ -10,7 +10,7 @@ Feature: Templates are behaving as intended
     When languages is asked for
     Then list of languages are provided
 
-  Scenario: Inherited matching test
+  Scenario: Inherited match test
     Given super templates with a match exists
     When match is asked for
     Then match is provided
@@ -19,3 +19,13 @@ Feature: Templates are behaving as intended
     Given super templates with a query exists
     When query is asked for
     Then query is provided
+
+  Scenario: Inherited update test
+    Given super templates with an update exists
+    When update is asked for
+    Then update is provided
+
+  Scenario: Inherited priority test
+    Given super templates with a priority exists
+    When priority is asked for
+    Then priority is provided
