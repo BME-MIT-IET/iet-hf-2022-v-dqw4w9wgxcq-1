@@ -1,11 +1,10 @@
-package cucumber.com.atomgraph.processor.model.impl;
+package cucumber.com.atomgraph.processor.model.impl.TemplateCall;
 
 import com.atomgraph.processor.model.TemplateCall;
 import com.atomgraph.processor.model.impl.TemplateCallImpl;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 
 import javax.ws.rs.core.MultivaluedHashMap;

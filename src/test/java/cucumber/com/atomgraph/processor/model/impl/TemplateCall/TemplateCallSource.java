@@ -1,4 +1,4 @@
-package cucumber.com.atomgraph.processor.model.impl;
+package cucumber.com.atomgraph.processor.model.impl.TemplateCall;
 
 import com.atomgraph.processor.model.Parameter;
 import com.atomgraph.processor.model.Template;
