@@ -12,11 +12,11 @@ public class InheritedFragmentTemplateCucumberTest {
     String superSuperFragmentTemplate;
     String superFragmentTemplate;
 
-    String fragmentUpdateFromSuperSuper;
-    String fragmentUpdateFromSuper;
-    String fragmentUpdateFromSub;
-    String fragmentUpdateFromSuperSuperTemplateOverriding;
-    String fragmentUpdateFromSubTemplate1;
+    String fragmentTemplateFromSuperSuper;
+    String fragmentTemplateFromSuper;
+    String fragmentTemplateFromSub;
+    String fragmentTemplateFromSuperSuperTemplateOverriding;
+    String fragmentTemplateFromSubTemplate1;
 
     @Given("super templates with a fragment template exists")
     public void superTemplatesWithAFragmentTemplateExists() {
@@ -26,21 +26,21 @@ public class InheritedFragmentTemplateCucumberTest {
 
     @When("fragment template is asked for")
     public void fragmentTemplateIsAskedFor() {
-        fragmentUpdateFromSuperSuper = source.getSuperSuperTemplate().getFragmentTemplate();
-        fragmentUpdateFromSuper = source.getSuperTemplate().getFragmentTemplate();
-        fragmentUpdateFromSub = source.getSubTemplate().getFragmentTemplate();
+        fragmentTemplateFromSuperSuper = source.getSuperSuperTemplate().getFragmentTemplate();
+        fragmentTemplateFromSuper = source.getSuperTemplate().getFragmentTemplate();
+        fragmentTemplateFromSub = source.getSubTemplate().getFragmentTemplate();
 
-        fragmentUpdateFromSuperSuperTemplateOverriding = source.getSuperTemplateOverriding().getFragmentTemplate();
-        fragmentUpdateFromSubTemplate1 = source.getSubTemplate1().getFragmentTemplate();
+        fragmentTemplateFromSuperSuperTemplateOverriding = source.getSuperTemplateOverriding().getFragmentTemplate();
+        fragmentTemplateFromSubTemplate1 = source.getSubTemplate1().getFragmentTemplate();
     }
 
     @Then("fragment template is provided")
     public void fragmentTemplateIsProvided() {
-        assertEquals(superSuperFragmentTemplate, fragmentUpdateFromSuperSuper);
-        assertEquals(superSuperFragmentTemplate, fragmentUpdateFromSuper);
-        assertEquals(superSuperFragmentTemplate, fragmentUpdateFromSub);
+        assertEquals(superSuperFragmentTemplate, fragmentTemplateFromSuperSuper);
+        assertEquals(superSuperFragmentTemplate, fragmentTemplateFromSuper);
+        assertEquals(superSuperFragmentTemplate, fragmentTemplateFromSub);
 
-        assertEquals(superFragmentTemplate, fragmentUpdateFromSuperSuperTemplateOverriding);
-        assertEquals(superFragmentTemplate, fragmentUpdateFromSubTemplate1);
+        assertEquals(superFragmentTemplate, fragmentTemplateFromSuperSuperTemplateOverriding);
+        assertEquals(superFragmentTemplate, fragmentTemplateFromSubTemplate1);
     }
 }

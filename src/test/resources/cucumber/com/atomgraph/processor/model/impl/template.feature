@@ -44,3 +44,8 @@ Feature: Templates are behaving as intended
     Given super templates with a fragment template exists
     When fragment template is asked for
     Then fragment template is provided
+
+  Scenario: Inherited parameter test
+    Given super templates with parameters exists
+    When parameters are asked for
+    Then parameters are provided
