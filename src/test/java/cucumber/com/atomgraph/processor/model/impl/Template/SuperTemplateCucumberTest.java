@@ -16,7 +16,7 @@ public class SuperTemplateCucumberTest {
     List<Template> superTemplatesFromSubTemplates;
 
     @Given("super and sub templates exists")
-    public void super_and_sub_templates_exists(){
+    public void superAndSubTemplatesExists(){
         superTemplates = Arrays.asList(source.getSuperTemplate(), source.getSuperSuperTemplate());
     }
 
