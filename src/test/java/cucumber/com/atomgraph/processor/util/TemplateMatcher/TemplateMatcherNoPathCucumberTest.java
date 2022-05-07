@@ -1,4 +1,4 @@
-package cucumber.com.atomgraph.processor.util;
+package cucumber.com.atomgraph.processor.util.TemplateMatcher;
 
 import com.atomgraph.processor.exception.OntologyException;
 import com.atomgraph.processor.model.Template;
@@ -15,31 +15,30 @@ import org.apache.jena.sys.JenaSystem;
 import org.apache.jena.vocabulary.RDFS;
 import org.assertj.core.api.Assertions;
 
-public class TemplateMatcherWithNumericalPathCucumberTest {
+public class TemplateMatcherNoPathCucumberTest {
     private Ontology invalidOntology;
     private String path;
 
-    public TemplateMatcherWithNumericalPathCucumberTest() {
+    public TemplateMatcherNoPathCucumberTest() {
         JenaSystem.init();
         BuiltinPersonalities.model.add(Template.class, TemplateImpl.factory);
     }
 
-    @Given("an invalid template in numerical path test")
-    public void an_invalid_template_in_numerical_path_test() {
+    @Given("an invalid template of no path test")
+    public void an_invalid_template_of_no_path_test() {
         invalidOntology = ModelFactory.createOntologyModel().createOntology("http://test/invalid-ontology");
-        Template invalidTemplate = invalidOntology.getOntModel().createIndividual("http://test/invalid-ontology/invalid-template", LDT.Template).
+        Template invalidTemplate = invalidOntology.getOntModel().createIndividual("http://test/invalid-ontology/no-path-template", LDT.Template).
                 as(Template.class);
-        invalidTemplate.addLiteral(LDT.match, 123).
-                addProperty(RDFS.isDefinedBy, invalidOntology);
+        invalidTemplate.addProperty(RDFS.isDefinedBy, invalidOntology);
     }
 
-    @When("the path is valid in numerical path test")
-    public void the_path_is_valid_in_numerical_path_test() {
+    @When("the path is valid of no path test")
+    public void the_path_is_valid_of_no_path_test() {
         this.path = "other/something";
     }
 
-    @Then("we get an exception in numerical path test")
-    public void we_get_an_exception_in_numerical_path_test() {
+    @Then("we get an exception in no path test")
+    public void we_get_an_exception_in_no_path_test() {
         Assertions.assertThatThrownBy(() ->
                 new TemplateMatcher(invalidOntology).match(path)).isInstanceOf(OntologyException.class);
     }

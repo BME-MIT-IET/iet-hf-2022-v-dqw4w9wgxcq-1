@@ -1,13 +1,10 @@
-package cucumber.com.atomgraph.processor.util;
+package cucumber.com.atomgraph.processor.util.TemplateMatcher;
 
 import com.atomgraph.processor.model.Template;
 import com.atomgraph.processor.model.impl.TemplateImpl;
 import com.atomgraph.processor.util.TemplateMatcher;
 import com.atomgraph.processor.vocabulary.LDT;
 import com.atomgraph.server.util.OntologyLoader;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import org.apache.jena.enhanced.BuiltinPersonalities;
 import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.Ontology;
@@ -18,10 +15,7 @@ import org.apache.jena.vocabulary.RDFS;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-
-
-class TemplateAndMatcherSource {
+public class TemplateAndMatcherSource {
     private static TemplateAndMatcherSource instance;
     private final Map<String, Template> templateMap;
     private TemplateMatcher matcher;
@@ -88,26 +82,5 @@ class TemplateAndMatcherSource {
 
     public TemplateMatcher getMatcher() {
         return matcher;
-    }
-}
-
-public class TemplateMatcherCucumberTest {
-    private Template template;
-    private String path;
-
-    @Given("template is {string}")
-    public void template_is(String templateName) {
-        this.template = TemplateAndMatcherSource.getInstance().getTemplate(templateName);
-    }
-
-    @When("the path is {string}")
-    public void the_path_is(String path) {
-        this.path = path;
-    }
-
-    @Then("they are equal")
-    public void they_are_equal() {
-        TemplateMatcher matcher = TemplateAndMatcherSource.getInstance().getMatcher();
-        assertEquals(template, matcher.match(path));
     }
 }
