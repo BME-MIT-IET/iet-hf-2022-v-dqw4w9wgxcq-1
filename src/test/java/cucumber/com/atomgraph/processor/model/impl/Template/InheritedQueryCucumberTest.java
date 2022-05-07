@@ -19,8 +19,8 @@ public class InheritedQueryCucumberTest {
     Resource queryFromSuperSuperTemplateOverriding;
     Resource queryFromSubTemplate1;
 
-    @Given("super templates and a query exists")
-    public void superTemplatesAndAQueryExists() {
+    @Given("super templates with a query exists")
+    public void superTemplatesWithAQueryExists() {
         superSuperQuery = source.getSuperSuperTemplate().getProperty(LDT.query).getResource();
         superQuery = source.getSuperTemplateOverriding().getProperty(LDT.query).getResource();
     }

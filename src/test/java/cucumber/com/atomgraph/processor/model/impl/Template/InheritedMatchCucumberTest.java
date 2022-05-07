@@ -19,8 +19,8 @@ public class InheritedMatchCucumberTest {
     UriTemplate matchFromSuperSuperTemplateOverriding;
     UriTemplate matchFromSubTemplate1;
 
-    @Given("super templates and a match exists")
-    public void superTemplatesAndAMatchExists() {
+    @Given("super templates with a match exists")
+    public void superTemplatesWithAMatchExists() {
         superSuperMatch = new UriTemplate(source.getSuperSuperTemplate().getProperty(LDT.match).getString());
         superMatch = new UriTemplate(source.getSuperTemplateOverriding().getProperty(LDT.match).getString());
     }

@@ -11,11 +11,11 @@ Feature: Templates are behaving as intended
     Then list of languages are provided
 
   Scenario: Inherited matching test
-    Given super templates and a match exists
+    Given super templates with a match exists
     When match is asked for
     Then match is provided
 
   Scenario: Inherited query test
-    Given super templates and a query exists
+    Given super templates with a query exists
     When query is asked for
     Then query is provided
