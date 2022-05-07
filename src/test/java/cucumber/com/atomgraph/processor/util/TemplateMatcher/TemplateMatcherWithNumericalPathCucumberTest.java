@@ -24,8 +24,8 @@ public class TemplateMatcherWithNumericalPathCucumberTest {
         BuiltinPersonalities.model.add(Template.class, TemplateImpl.factory);
     }
 
-    @Given("an invalid template of numerical path test")
-    public void an_invalid_template_of_numerical_path_test() {
+    @Given("an invalid template in numerical path test")
+    public void an_invalid_template_in_numerical_path_test() {
         invalidOntology = ModelFactory.createOntologyModel().createOntology("http://test/invalid-ontology");
         Template invalidTemplate = invalidOntology.getOntModel().createIndividual("http://test/invalid-ontology/invalid-template", LDT.Template).
                 as(Template.class);
@@ -33,8 +33,8 @@ public class TemplateMatcherWithNumericalPathCucumberTest {
                 addProperty(RDFS.isDefinedBy, invalidOntology);
     }
 
-    @When("the path is valid of numerical path test")
-    public void the_path_is_valid_of_numerical_path_test() {
+    @When("the path is valid in numerical path test")
+    public void the_path_is_valid_in_numerical_path_test() {
         this.path = "other/something";
     }
 

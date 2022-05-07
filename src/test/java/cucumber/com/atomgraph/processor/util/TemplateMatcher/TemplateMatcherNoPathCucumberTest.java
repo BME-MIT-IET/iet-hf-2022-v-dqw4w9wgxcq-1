@@ -24,16 +24,16 @@ public class TemplateMatcherNoPathCucumberTest {
         BuiltinPersonalities.model.add(Template.class, TemplateImpl.factory);
     }
 
-    @Given("an invalid template of no path test")
-    public void an_invalid_template_of_no_path_test() {
+    @Given("an invalid template in no path test")
+    public void an_invalid_template_in_no_path_test() {
         invalidOntology = ModelFactory.createOntologyModel().createOntology("http://test/invalid-ontology");
         Template invalidTemplate = invalidOntology.getOntModel().createIndividual("http://test/invalid-ontology/no-path-template", LDT.Template).
                 as(Template.class);
         invalidTemplate.addProperty(RDFS.isDefinedBy, invalidOntology);
     }
 
-    @When("the path is valid of no path test")
-    public void the_path_is_valid_of_no_path_test() {
+    @When("the path is valid in no path test")
+    public void the_path_is_valid_in_no_path_test() {
         this.path = "other/something";
     }
 
