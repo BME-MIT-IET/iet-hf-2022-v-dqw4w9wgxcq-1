@@ -52,4 +52,5 @@ public class NonNullLanguagesCucumberTest {
         assertEquals(superLanguages, languagesFromSuperTemplateOverriding);
         assertEquals(superLanguages, languagesFromSubTemplate1);
     }
+
 }
