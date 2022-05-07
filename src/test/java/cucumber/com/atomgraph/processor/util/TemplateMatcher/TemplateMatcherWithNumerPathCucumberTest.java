@@ -15,11 +15,11 @@ import org.apache.jena.sys.JenaSystem;
 import org.apache.jena.vocabulary.RDFS;
 import org.assertj.core.api.Assertions;
 
-public class TemplateMatcherWithNumericalPathCucumberTest {
+public class TemplateMatcherWithNumerPathCucumberTest {
     private Ontology invalidOntology;
     private String path;
 
-    public TemplateMatcherWithNumericalPathCucumberTest() {
+    public TemplateMatcherWithNumerPathCucumberTest() {
         JenaSystem.init();
         BuiltinPersonalities.model.add(Template.class, TemplateImpl.factory);
     }
