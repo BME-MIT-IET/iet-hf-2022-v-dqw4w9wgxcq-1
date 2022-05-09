@@ -54,7 +54,7 @@ public class TemplateImpl extends OntClassImpl implements Template
 
     private static final Logger log = LoggerFactory.getLogger(TemplateImpl.class);
 
-    public static Implementation factory = new Implementation() 
+    public static final Implementation factory = new Implementation() 
     {
         
         @Override

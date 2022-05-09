@@ -32,7 +32,8 @@ public class InsertDataBuilder
 {
 
     private final Model model;
-    private String baseURI, graphURI;
+    private String baseURI;
+    private String graphURI;
     
     private InsertDataBuilder(Model model)
     {

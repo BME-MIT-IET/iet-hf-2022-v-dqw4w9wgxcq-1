@@ -66,7 +66,8 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
     private final HttpHeaders httpHeaders;
     private final QuerySolutionMap querySolutionMap;
     private final Query query;
-    private final Resource queryResource, updateResource;
+    private final Resource queryResource;
+    private final Resource updateResource;
     private final UpdateRequest update;
 
     /**
@@ -177,7 +178,7 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
      */
     @Path("{path: .+}")
     @Override
-    public Class getSubResource()
+    public Class<?> getSubResource()
     {
         Optional<TemplateCall> templateCallCurrent = getTemplateCall();
         if (templateCallCurrent.isPresent() && templateCallCurrent.get().getTemplate().getLoadClass() != null)
@@ -189,7 +190,7 @@ public class ResourceBase extends QueriedResourceBase implements com.atomgraph.s
                 throw new OntologyException("ldt:loadClass value of template '" + templateCallCurrent.get().getTemplate() + "' is not a URI resource");
             }
 
-            Class clazz = ClsLoader.loadClass(javaClass.getURI());
+            Class<?> clazz = ClsLoader.loadClass(javaClass.getURI());
             if (clazz == null)
             {
                 if (log.isErrorEnabled()) log.error("Java class with URI '{}' could not be loaded", javaClass.getURI());
