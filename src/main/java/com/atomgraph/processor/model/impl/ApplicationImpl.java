@@ -16,14 +16,14 @@
 package com.atomgraph.processor.model.impl;
 
 import com.atomgraph.core.model.Service;
-import com.atomgraph.processor.model.Application;
+import com.atomgraph.processor.model.App;
 import org.apache.jena.rdf.model.Resource;
 
 /**
  *
  * @author Martynas Jusevičius {@literal <martynas@atomgraph.com>}
  */
-public class ApplicationImpl implements Application
+public class ApplicationImpl implements App
 {
     private final Resource ontology;
     private final Service service;

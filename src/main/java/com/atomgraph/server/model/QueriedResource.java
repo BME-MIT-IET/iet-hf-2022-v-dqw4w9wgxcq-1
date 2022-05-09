@@ -31,6 +31,6 @@ public interface QueriedResource extends com.atomgraph.core.model.QueriedResourc
      * 
      * @return query builder
      */
-    public UpdateRequest getUpdate();
+    UpdateRequest getUpdate();
     
 }

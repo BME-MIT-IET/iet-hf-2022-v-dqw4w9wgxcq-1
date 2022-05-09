@@ -137,7 +137,7 @@ public class TemplateImpl extends OntClassImpl implements Template
     {
         Template lowest = getSelfOrSuperWithProperty(LDT.priority);
         if (lowest != null) return lowest.getProperty(LDT.priority).getDouble();
-        else return Double.valueOf(0);
+        else return (double) 0;
     }
 
     @Override
@@ -149,7 +149,7 @@ public class TemplateImpl extends OntClassImpl implements Template
         
         return templates.stream().
                 flatMap(t -> t.getLocalParameters().entrySet().stream()). // stream param map entries
-                collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+                collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
     
     @Override
@@ -220,8 +220,7 @@ public class TemplateImpl extends OntClassImpl implements Template
         {
             if (!langs.canAs(RDFList.class))
             {
-                if (log.isErrorEnabled()) log.error("ldt:lang value is not an rdf:List on template '{}'", getURI());
-                throw new OntologyException("ldt:lang value is not an rdf:List on template  '" + getURI() +"'");
+                langsError();
             }
 
             // could use list order as priority (quality value q=)
@@ -234,8 +233,7 @@ public class TemplateImpl extends OntClassImpl implements Template
                     RDFNode langTag = it.next();
                     if (!langTag.isLiteral())
                     {
-                        if (log.isErrorEnabled()) log.error("Non-literal language tag (ldt:lang member) on template '{}'", getURI());
-                        throw new OntologyException("Non-literal language tag (ldt:lang member) on template '" + getURI() +"'");
+                        langTagError();
                     }
 
                     languages.add(Locale.forLanguageTag(langTag.asLiteral().getString()));
@@ -248,6 +246,18 @@ public class TemplateImpl extends OntClassImpl implements Template
         }
         
         return languages;
+    }
+
+    private void langsError()
+    {
+        if (log.isErrorEnabled()) log.error("ldt:lang value is not an rdf:List on template '{}'", getURI());
+        throw new OntologyException("ldt:lang value is not an rdf:List on template  '" + getURI() +"'");
+    }
+
+    private void langTagError()
+    {
+        if (log.isErrorEnabled()) log.error("Non-literal language tag (ldt:lang member) on template '{}'", getURI());
+        throw new OntologyException("Non-literal language tag (ldt:lang member) on template '" + getURI() +"'");
     }
         
     @Override
@@ -327,15 +337,13 @@ public class TemplateImpl extends OntClassImpl implements Template
     @Override
     public String toString()
     {
-        return new StringBuilder().
-        append("[<").
-        append(getURI()).
-        append(">: \"").
-        append(getMatch()).
-        append("\", ").
-        append(Double.toString(getPriority())).
-        append("]").
-        toString();
+        return "[<" +
+                getURI() +
+                ">: \"" +
+                getMatch() +
+                "\", " +
+                getPriority() +
+                "]";
     }
     
 }

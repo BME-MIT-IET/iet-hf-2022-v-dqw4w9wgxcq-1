@@ -18,6 +18,7 @@ package com.atomgraph.server.io;
 
 import org.apache.jena.ontology.Ontology;
 import org.apache.jena.rdf.model.Model;
+import java.util.Optional;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriBuilder;
@@ -26,8 +27,6 @@ import com.atomgraph.processor.util.Skolemizer;
 import javax.ws.rs.HttpMethod;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Model provider that skolemizes read triples against class URI templates in an ontology.
@@ -36,8 +35,6 @@ import org.slf4j.LoggerFactory;
  */
 public class SkolemizingModelProvider extends ValidatingModelProvider
 {
-    private static final Logger log = LoggerFactory.getLogger(SkolemizingModelProvider.class);
-    
     @Context private Request request;
     
     @Override
@@ -58,8 +55,9 @@ public class SkolemizingModelProvider extends ValidatingModelProvider
             {
                 it.close();
             }
-        
-            if (getOntology().isPresent()) return skolemize(getOntology().get(), getUriInfo().getBaseUriBuilder(), getUriInfo().getAbsolutePathBuilder(), super.processRead(model));
+            
+            Optional<Ontology> ontology = getOntology();
+            if (ontology.isPresent()) return skolemize(ontology.get(), getUriInfo().getBaseUriBuilder(), getUriInfo().getAbsolutePathBuilder(), super.processRead(model));
             else return model;
         }
         

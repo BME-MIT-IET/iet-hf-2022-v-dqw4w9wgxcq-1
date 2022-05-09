@@ -22,8 +22,6 @@ import org.apache.jena.graph.Node;
 import org.apache.jena.ontology.ConversionException;
 import org.apache.jena.vocabulary.RDF;
 import com.atomgraph.processor.vocabulary.LDT;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.atomgraph.processor.model.Parameter;
 
 /**
@@ -33,8 +31,6 @@ import com.atomgraph.processor.model.Parameter;
 public class ParameterImpl extends com.atomgraph.spinrdf.model.impl.ArgumentImpl implements Parameter
 {
     
-    private static final Logger log = LoggerFactory.getLogger(ParameterImpl.class);
-
     public static Implementation factory = new Implementation() 
     {
         
