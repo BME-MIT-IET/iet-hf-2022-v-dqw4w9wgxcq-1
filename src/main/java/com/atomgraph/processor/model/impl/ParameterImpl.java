@@ -31,7 +31,7 @@ import com.atomgraph.processor.model.Parameter;
 public class ParameterImpl extends com.atomgraph.spinrdf.model.impl.ArgumentImpl implements Parameter
 {
     
-    public static Implementation factory = new Implementation() 
+    public static final Implementation factory = new Implementation() 
     {
         
         @Override

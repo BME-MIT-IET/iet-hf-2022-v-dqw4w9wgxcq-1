@@ -20,7 +20,7 @@ import com.atomgraph.processor.model.Template;
 import com.atomgraph.processor.model.impl.TemplateImpl;
 import com.atomgraph.processor.vocabulary.LDT;
 import com.atomgraph.server.util.OntologyLoader;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import org.apache.jena.enhanced.BuiltinPersonalities;
 import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.Ontology;

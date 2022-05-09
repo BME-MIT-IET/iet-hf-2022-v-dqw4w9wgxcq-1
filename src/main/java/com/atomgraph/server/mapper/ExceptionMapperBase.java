@@ -46,7 +46,7 @@ import javax.ws.rs.core.MediaType;
  * @author Martynas Jusevičius {@literal <martynas@atomgraph.com>}
  */
 @Provider
-abstract public class ExceptionMapperBase
+public abstract class ExceptionMapperBase
 {
 
     @Context private Request request;
@@ -55,7 +55,7 @@ abstract public class ExceptionMapperBase
     private final MediaTypes mediaTypes;
     
     @Inject
-    public ExceptionMapperBase(MediaTypes mediaTypes)
+    protected ExceptionMapperBase(MediaTypes mediaTypes)
     {
         this.mediaTypes = mediaTypes;
     }
@@ -97,7 +97,7 @@ abstract public class ExceptionMapperBase
      * @param clazz class
      * @return list of variants
      */
-    public List<Variant> getVariants(Class clazz)
+    public List<Variant> getVariants(Class<?> clazz)
     {
         return getVariants(getWritableMediaTypes(clazz));
     }
@@ -119,7 +119,7 @@ abstract public class ExceptionMapperBase
      * @param clazz class
      * @return list of media types
      */
-    public List<MediaType> getWritableMediaTypes(Class clazz)
+    public List<MediaType> getWritableMediaTypes(Class<?> clazz)
     {
         return getMediaTypes().getWritable(clazz);
     }
