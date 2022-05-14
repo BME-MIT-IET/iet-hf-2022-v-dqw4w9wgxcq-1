@@ -26,9 +26,9 @@ import org.apache.jena.ontology.Ontology;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.sys.JenaSystem;
 import org.apache.jena.vocabulary.RDFS;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -98,7 +98,7 @@ public class TemplateMatcherTest
         
         // load the ontology the same way Application loads it
         OntDocumentManager.getInstance().addModel(ontology.getURI(), ontology.getOntModel());
-        ontology = new OntologyLoader( OntDocumentManager.getInstance(), ontology.getURI(), ontology.getOntModel().getSpecification(), true).getOntology();
+        ontology = new OntologyLoader(OntDocumentManager.getInstance(), ontology.getURI(), ontology.getOntModel().getSpecification(), true).getOntology();
 
         matcher = new TemplateMatcher(ontology);
     }
