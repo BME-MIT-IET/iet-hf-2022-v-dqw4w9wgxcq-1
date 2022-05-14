@@ -22,8 +22,6 @@ import com.atomgraph.processor.model.TemplateCall;
 import com.atomgraph.processor.vocabulary.LDT;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import org.apache.jena.enhanced.BuiltinPersonalities;
 import org.apache.jena.ontology.Ontology;
 import org.apache.jena.query.QuerySolutionMap;
@@ -34,10 +32,13 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
-import static org.junit.Assert.assertNotNull;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import com.atomgraph.spinrdf.vocabulary.SP;
 import com.atomgraph.spinrdf.vocabulary.SPIN;
 import com.atomgraph.spinrdf.vocabulary.SPL;
@@ -65,14 +66,14 @@ public class TemplateCallTest
         JenaSystem.init();
     }
     
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass()
     {
         BuiltinPersonalities.model.add(Template.class, TemplateImpl.factory);
         BuiltinPersonalities.model.add(Parameter.class, ParameterImpl.factory);
     }
     
-    @Before
+    @BeforeEach
     public void setUp()
     {
         Ontology ontology = ModelFactory.createOntologyModel().createOntology("http://test/ontology");
@@ -167,7 +168,7 @@ public class TemplateCallTest
         assertNull(applied.getArgument(unusedPredicate));
     }
     
-    @Test(expected = ParameterException.class)
+    @Test
     public void testValidateNonOptionals()
     {
         String param2Value = "with space";
@@ -175,7 +176,9 @@ public class TemplateCallTest
         // parameter1 is mandatory (spl:defaultValue false), but its value is missing
         queryParams.add(PREDICATE2_LOCAL_NAME, param2Value);
         
-        call.applyArguments(queryParams).validateOptionals();
+        assertThrows(ParameterException.class, () -> {
+            call.applyArguments(queryParams).validateOptionals();
+        });        
     }
     
     public void testValidateOptionals()

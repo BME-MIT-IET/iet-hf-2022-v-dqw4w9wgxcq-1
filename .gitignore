@@ -3,3 +3,5 @@ target
 /.idea
 /*.iml
 /nbproject/
+.vscode
+.DS_Store

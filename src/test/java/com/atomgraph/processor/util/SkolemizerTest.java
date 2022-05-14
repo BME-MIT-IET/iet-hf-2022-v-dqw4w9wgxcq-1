@@ -40,8 +40,8 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.glassfish.jersey.uri.internal.UriTemplateParser;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -282,7 +282,7 @@ public class SkolemizerTest
         assertEquals(expected, actual);
     }
     
-    @Test(expected = OntologyException.class)
+    @Test
     public void testInvalidPath()
     {
         Ontology ontology = ModelFactory.createOntologyModel().createOntology("http://test/ontology");
@@ -292,7 +292,10 @@ public class SkolemizerTest
                 createResource().
                 addProperty(RDF.type, cls);
         
-        getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(invalid);
+        assertThrows(OntologyException.class, () -> {
+                getSkolemizer(new OntDocumentManager(), ontology.getOntModel(), ontology.getURI()).build(invalid);
+        });
+        
     }
     /**
      * Test of getNameValueMap method, of class Skolemizer.
