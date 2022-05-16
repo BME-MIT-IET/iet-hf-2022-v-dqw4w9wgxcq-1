@@ -34,7 +34,7 @@ public class HTTP
 {
 
     /** <p>The RDF model that holds the vocabulary terms</p> */
-    private static OntModel m_model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
+    private static final OntModel m_model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM, null);
     
     /** <p>The namespace of the vocabulary as a string</p> */
     public static final String NS = "http://www.w3.org/2011/http#";

@@ -256,21 +256,4 @@ public class TemplateCallImpl extends com.atomgraph.core.util.StateBuilder imple
         return qsm;
     }
 
-    
-    /*
-    @Override
-    public String toString()
-    {
-        return new StringBuilder().
-        append("[<").
-        append(build().getURI()).
-        append(">").
-        append("[<").
-        append(getTemplate().getURI()).
-        append(">").
-        append("]").
-        toString();
-    }
-    */
-
 }

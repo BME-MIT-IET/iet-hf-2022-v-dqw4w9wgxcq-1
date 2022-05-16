@@ -19,7 +19,6 @@ package com.atomgraph.server.filter.response;
 import com.atomgraph.core.util.Link;
 import com.atomgraph.processor.model.TemplateCall;
 import com.atomgraph.processor.vocabulary.LDT;
-import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 import javax.inject.Inject;
@@ -44,14 +43,15 @@ public class ResponseHeaderFilter implements ContainerResponseFilter
     @Context UriInfo uriInfo;
     
     @Override
-    public void filter(ContainerRequestContext request, ContainerResponseContext response) throws IOException
-    {
+    public void filter(ContainerRequestContext request, ContainerResponseContext response) {
         response.getHeaders().add(HttpHeaders.LINK, new Link(getUriInfo().getBaseUri(), LDT.base.getURI(), null));
 
-        if (getOntology().isPresent()) // if it's not present, Link headers might be forwarded by ProxyResourceBase
-            response.getHeaders().add(HttpHeaders.LINK, new Link(URI.create(getOntology().get().getURI()), LDT.ontology.getURI(), null));
-        if (getTemplateCall().isPresent())
-            response.getHeaders().add(HttpHeaders.LINK, new Link(URI.create(getTemplateCall().get().getTemplate().getURI()), LDT.template.getURI(), null));
+        Optional<Ontology> ontologyCurrent = getOntology();
+        if (ontologyCurrent.isPresent()) // if it's not present, Link headers might be forwarded by ProxyResourceBase
+            response.getHeaders().add(HttpHeaders.LINK, new Link(URI.create(ontologyCurrent.get().getURI()), LDT.ontology.getURI(), null));
+        Optional<TemplateCall> templateCallCurrent = getTemplateCall();
+        if (templateCallCurrent.isPresent())
+            response.getHeaders().add(HttpHeaders.LINK, new Link(URI.create(templateCallCurrent.get().getTemplate().getURI()), LDT.template.getURI(), null));
     }
 
     public Optional<Ontology> getOntology()

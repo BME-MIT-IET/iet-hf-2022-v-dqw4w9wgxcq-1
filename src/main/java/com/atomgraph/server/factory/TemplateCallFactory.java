@@ -29,8 +29,6 @@ import javax.ws.rs.ext.Provider;
 import org.apache.jena.ontology.Ontology;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.glassfish.hk2.api.Factory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Template call provider.
@@ -41,8 +39,6 @@ import org.slf4j.LoggerFactory;
 @Provider
 public class TemplateCallFactory implements Factory<Optional<TemplateCall>>
 {
-
-    private static final Logger log = LoggerFactory.getLogger(TemplateCallFactory.class);
 
     @Context UriInfo uriInfo;
     
@@ -57,6 +53,7 @@ public class TemplateCallFactory implements Factory<Optional<TemplateCall>>
     @Override
     public void dispose(Optional<TemplateCall> tc)
     {
+        throw new UnsupportedOperationException();
     }
     
     public Optional<TemplateCall> getTemplateCall()
@@ -73,7 +70,6 @@ public class TemplateCallFactory implements Factory<Optional<TemplateCall>>
         if (absolutePath == null) throw new IllegalArgumentException("URI cannot be null");
         if (queryParams == null) throw new IllegalArgumentException("MultivaluedMap cannot be null");
 
-        //if (log.isDebugEnabled()) log.debug("Building Optional<TemplateCall> from Template {}", template);
         TemplateCall templateCall = new TemplateCallImpl(ModelFactory.createDefaultModel().createResource(absolutePath.toString()), template).
             applyArguments(queryParams). // apply URL query parameters
             applyDefaults().
@@ -85,7 +81,7 @@ public class TemplateCallFactory implements Factory<Optional<TemplateCall>>
 
     public Template getTemplate()
     {
-        if (getOntology().isPresent()) return getTemplate(getOntology().get(), getUriInfo());
+        if (ontology.isPresent()) return getTemplate(ontology.get(), getUriInfo());
         
         return null;
     }
