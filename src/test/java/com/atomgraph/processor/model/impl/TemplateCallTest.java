@@ -22,6 +22,7 @@ import com.atomgraph.processor.model.TemplateCall;
 import com.atomgraph.processor.vocabulary.LDT;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+
 import org.apache.jena.enhanced.BuiltinPersonalities;
 import org.apache.jena.ontology.Ontology;
 import org.apache.jena.query.QuerySolutionMap;
@@ -30,12 +31,17 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.XSD;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -163,6 +169,7 @@ public class TemplateCallTest
         queryParams.add(UNUSED_PREDICATE_LOCAL_NAME, "X");
         
         TemplateCall applied = call.applyArguments(queryParams).applyDefaults();
+
         assertNotNull(applied.getArgument(predicate1));
         assertNotNull(applied.getArgument(predicate2));
         assertNull(applied.getArgument(unusedPredicate));
@@ -232,5 +239,6 @@ public class TemplateCallTest
         
         assertEquals(qsm.asMap(), call.getQuerySolutionMap().asMap());
     }
+
     
 }
