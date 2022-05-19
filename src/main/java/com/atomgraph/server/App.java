@@ -53,7 +53,6 @@ import com.atomgraph.processor.vocabulary.LDT;
 import com.atomgraph.server.mapper.SPINConstraintViolationExceptionMapper;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.Dataset;
-import static com.atomgraph.core.Application.getClient;
 import com.atomgraph.core.io.QueryProvider;
 import com.atomgraph.core.mapper.NoReaderForLangExceptionMapper;
 import com.atomgraph.core.model.Service;
@@ -83,11 +82,11 @@ import org.glassfish.jersey.process.internal.RequestScoped;
  *
  * @author Martynas Jusevičius {@literal <martynas@atomgraph.com>}
  */
-public class Application extends com.atomgraph.core.Application
+public class App extends com.atomgraph.core.Application
 {
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final Logger log = LoggerFactory.getLogger(App.class);
 
-    private final com.atomgraph.processor.model.Application application;
+    private final com.atomgraph.processor.model.App application;
     private final Service service;
     private final String ontologyURI;
     private final Ontology ontology;
@@ -97,7 +96,7 @@ public class Application extends com.atomgraph.core.Application
      * Initializes root resource classes and provider singletons
      * @param servletConfig
      */
-    public Application(@Context ServletConfig servletConfig)
+    public App(@Context ServletConfig servletConfig)
     {
         this(
             servletConfig.getServletContext().getInitParameter(A.dataset.getURI()) != null ? getDataset(servletConfig.getServletContext().getInitParameter(A.dataset.getURI()), null) : null,
@@ -108,15 +107,15 @@ public class Application extends com.atomgraph.core.Application
             servletConfig.getServletContext().getInitParameter(A.authPwd.getURI()) != null ? servletConfig.getServletContext().getInitParameter(A.authPwd.getURI()) : null,
             new MediaTypes(), getClient(new ClientConfig()),
             servletConfig.getServletContext().getInitParameter(A.maxGetRequestSize.getURI()) != null ? Integer.parseInt(servletConfig.getServletContext().getInitParameter(A.maxGetRequestSize.getURI())) : null,
-            servletConfig.getServletContext().getInitParameter(A.cacheModelLoads.getURI()) != null ? Boolean.parseBoolean(servletConfig.getServletContext().getInitParameter(A.cacheModelLoads.getURI())) : false,
-            servletConfig.getServletContext().getInitParameter(A.preemptiveAuth.getURI()) != null ? Boolean.parseBoolean(servletConfig.getServletContext().getInitParameter(A.preemptiveAuth.getURI())) : false,
+            servletConfig.getServletContext().getInitParameter(A.cacheModelLoads.getURI()) != null && Boolean.parseBoolean(servletConfig.getServletContext().getInitParameter(A.cacheModelLoads.getURI())),
+            servletConfig.getServletContext().getInitParameter(A.preemptiveAuth.getURI()) != null && Boolean.parseBoolean(servletConfig.getServletContext().getInitParameter(A.preemptiveAuth.getURI())),
             new LocationMapper(servletConfig.getServletContext().getInitParameter(AP.locationMapping.getURI()) != null ? servletConfig.getServletContext().getInitParameter(AP.locationMapping.getURI()) : null),
             servletConfig.getServletContext().getInitParameter(LDT.ontology.getURI()) != null ? servletConfig.getServletContext().getInitParameter(LDT.ontology.getURI()) : null,
-            servletConfig.getServletContext().getInitParameter(AP.cacheSitemap.getURI()) != null ? Boolean.valueOf(servletConfig.getServletContext().getInitParameter(AP.cacheSitemap.getURI())) : true
+            servletConfig.getServletContext().getInitParameter(AP.cacheSitemap.getURI()) == null || Boolean.parseBoolean(servletConfig.getServletContext().getInitParameter(AP.cacheSitemap.getURI()))
         );
     }
     
-    public Application(final Dataset dataset, final String endpointURI, final String graphStoreURI, final String quadStoreURI,
+    public App(final Dataset dataset, final String endpointURI, final String graphStoreURI, final String quadStoreURI,
             final String authUser, final String authPwd,
             final MediaTypes mediaTypes, final Client client, final Integer maxGetRequestSize, final boolean cacheModelLoads, final boolean preemptiveAuth,
             final LocationMapper locationMapper, final String ontologyURI, boolean cacheSitemap)
@@ -127,7 +126,7 @@ public class Application extends com.atomgraph.core.Application
         
         if (ontologyURI == null)
         {
-            if (log.isErrorEnabled()) log.error("Sitemap ontology URI (" + LDT.ontology.getURI() + ") not configured");
+            if (log.isErrorEnabled()) log.error("Sitemap ontology URI ({}) not configured", LDT.ontology.getURI());
             throw new ConfigurationException(LDT.ontology);
         }
         this.ontologyURI = ontologyURI;
@@ -139,13 +138,11 @@ public class Application extends com.atomgraph.core.Application
         {
             if (endpointURI == null)
             {
-                if (log.isErrorEnabled()) log.error("SPARQL endpoint not configured ('{}' not set in web.xml)", SD.endpoint.getURI());
-                throw new ConfigurationException(SD.endpoint);
+                endpointError();
             }
             if (graphStoreURI == null)
             {
-                if (log.isErrorEnabled()) log.error("Graph Store not configured ('{}' not set in web.xml)", A.graphStore.getURI());
-                throw new ConfigurationException(A.graphStore);
+                graphStoreError();
             }
 
             service = new com.atomgraph.core.model.impl.remote.ServiceImpl(client, mediaTypes,
@@ -168,6 +165,18 @@ public class Application extends com.atomgraph.core.Application
         
         this.ontology = new OntologyLoader(OntDocumentManager.getInstance(), ontologyURI, OntModelSpec.OWL_MEM_RDFS_INF, true).getOntology();
     }
+
+    private void endpointError()
+    {
+        if (log.isErrorEnabled()) log.error("SPARQL endpoint not configured ('{}' not set in web.xml)", SD.endpoint.getURI());
+        throw new ConfigurationException(SD.endpoint);
+    }
+
+    private void graphStoreError()
+    {
+        if (log.isErrorEnabled()) log.error("Graph Store not configured ('{}' not set in web.xml)", A.graphStore.getURI());
+        throw new ConfigurationException(A.graphStore);
+    }
     
     /**
      * Initializes JAX-RS resource classes and providers.
@@ -182,7 +191,7 @@ public class Application extends com.atomgraph.core.Application
             @Override
             protected void configure()
             {
-                bind(application).to(com.atomgraph.processor.model.Application.class);
+                bind(application).to(com.atomgraph.processor.model.App.class);
             }
         });
         register(new AbstractBinder()
@@ -240,8 +249,6 @@ public class Application extends com.atomgraph.core.Application
         register(ParameterExceptionMapper.class);
         register(QueryParseExceptionMapper.class);
         register(new ResponseHeaderFilter());
-        
-        //if (log.isTraceEnabled()) log.trace("Application.init() with Classes: {} and Singletons: {}", classes, singletons);
     }
     
     public String getOntologyURI()

@@ -28,6 +28,7 @@ import java.util.List;
  */
 public class RulePrinter
 {
+    private RulePrinter(){}
 
     public static String print(List<Rule> rules)
     {
