@@ -21,7 +21,7 @@ import org.apache.jena.rdf.model.Resource;
  *
  * @author Martynas Jusevičius {@literal <martynas@atomgraph.com>}
  */
-public interface Application extends com.atomgraph.core.model.Application
+public interface App extends com.atomgraph.core.model.Application
 {
     
     Resource getOntology();

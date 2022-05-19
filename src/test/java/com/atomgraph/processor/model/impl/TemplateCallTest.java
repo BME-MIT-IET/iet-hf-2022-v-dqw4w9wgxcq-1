@@ -22,8 +22,8 @@ import com.atomgraph.processor.model.TemplateCall;
 import com.atomgraph.processor.vocabulary.LDT;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.apache.jena.enhanced.BuiltinPersonalities;
 import org.apache.jena.ontology.Ontology;
 import org.apache.jena.query.QuerySolutionMap;
@@ -130,7 +130,7 @@ public class TemplateCallTest
     public void testApplyArguments()
     {
         String param1Value = "1", param2Value = "with space";
-        MultivaluedMap queryParams = new MultivaluedHashMap();
+        MultivaluedMap<String, String> queryParams = new MultivaluedHashMap<String, String>();
         queryParams.add(PREDICATE1_LOCAL_NAME, param1Value);
         queryParams.add(PREDICATE2_LOCAL_NAME, param2Value);
         queryParams.add(UNUSED_PREDICATE_LOCAL_NAME, "X");
@@ -143,7 +143,7 @@ public class TemplateCallTest
     public void testApplyDefaults()
     {
         String param1Value = "1";
-        MultivaluedMap queryParams = new MultivaluedHashMap();
+        MultivaluedMap<String, String> queryParams = new MultivaluedHashMap<String, String>();
         queryParams.add(PREDICATE1_LOCAL_NAME, param1Value);
         // predicate2 value comes from spl:defaultValue instead
         queryParams.add(UNUSED_PREDICATE_LOCAL_NAME, "X");
@@ -156,7 +156,7 @@ public class TemplateCallTest
     public void testGetArgument()
     {
         String param1Value = "1";
-        MultivaluedMap queryParams = new MultivaluedHashMap();
+        MultivaluedMap<String, String> queryParams = new MultivaluedHashMap<String, String>();
         queryParams.add(PREDICATE1_LOCAL_NAME, param1Value);
         // predicate2 value comes from spl:defaultValue instead
         queryParams.add(UNUSED_PREDICATE_LOCAL_NAME, "X");
@@ -171,7 +171,7 @@ public class TemplateCallTest
     public void testValidateNonOptionals()
     {
         String param2Value = "with space";
-        MultivaluedMap queryParams = new MultivaluedHashMap();
+        MultivaluedMap<String, String> queryParams = new MultivaluedHashMap<String, String>();
         // parameter1 is mandatory (spl:defaultValue false), but its value is missing
         queryParams.add(PREDICATE2_LOCAL_NAME, param2Value);
         
@@ -181,7 +181,7 @@ public class TemplateCallTest
     public void testValidateOptionals()
     {
         String param1Value = "1", param2Value = "with space";
-        MultivaluedMap queryParams = new MultivaluedHashMap();
+        MultivaluedMap<String, String> queryParams = new MultivaluedHashMap<String, String>();
         queryParams.add(PREDICATE1_LOCAL_NAME, param1Value);
         queryParams.add(PREDICATE2_LOCAL_NAME, param2Value);
         // parameter3 is optional
@@ -193,7 +193,7 @@ public class TemplateCallTest
     public void testValidateOptionalDefaults()
     {
         String param1Value = "1", param3Value = "A";
-        MultivaluedMap queryParams = new MultivaluedHashMap();
+        MultivaluedMap<String, String> queryParams = new MultivaluedHashMap<String, String>();
         queryParams.add(PREDICATE1_LOCAL_NAME, param1Value);
         // parameter2 is mandatory (spl:defaultValue false) and its value is missing, but it has a default value which applies
         queryParams.add(PREDICATE3_LOCAL_NAME, param3Value);
@@ -208,10 +208,10 @@ public class TemplateCallTest
     {
         String param1Value = "1", param2Value = "with space";
         Resource param3Value = ResourceFactory.createResource("http://whateverest/");
-        MultivaluedMap queryParams = new MultivaluedHashMap();
+        MultivaluedMap<String, String> queryParams = new MultivaluedHashMap<String, String>();
         queryParams.add(PREDICATE1_LOCAL_NAME, param1Value);
         queryParams.add(PREDICATE2_LOCAL_NAME, param2Value);
-        queryParams.add(UNUSED_PREDICATE_LOCAL_NAME, param3Value);
+        queryParams.add(UNUSED_PREDICATE_LOCAL_NAME, param3Value.toString());
 
         TemplateCall otherCall = new TemplateCallImpl(resource, template).
             arg(param1, ResourceFactory.createPlainLiteral(param1Value)).

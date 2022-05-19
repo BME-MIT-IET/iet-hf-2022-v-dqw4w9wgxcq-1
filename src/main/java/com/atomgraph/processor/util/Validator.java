@@ -19,8 +19,6 @@ package com.atomgraph.processor.util;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.atomgraph.spinrdf.constraints.ConstraintViolation;
 import com.atomgraph.spinrdf.constraints.SPINConstraints;
 
@@ -30,8 +28,6 @@ import com.atomgraph.spinrdf.constraints.SPINConstraints;
  */
 public class Validator
 {
-    private static final Logger log = LoggerFactory.getLogger(Validator.class);
-    
     private final OntModel ontModel;
         
     public Validator(OntModel ontModel)

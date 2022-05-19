@@ -18,7 +18,6 @@ package com.atomgraph.server.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
@@ -33,7 +32,8 @@ public class InsertDataBuilder
 {
 
     private final Model model;
-    private String baseURI, graphURI;
+    private String baseURI;
+    private String graphURI;
     
     private InsertDataBuilder(Model model)
     {
@@ -57,7 +57,7 @@ public class InsertDataBuilder
         return this;
     }
 
-    public UpdateRequest build() throws UnsupportedEncodingException, IOException
+    public UpdateRequest build() throws IOException
     {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
         {

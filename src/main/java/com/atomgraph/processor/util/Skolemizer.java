@@ -56,13 +56,23 @@ public class Skolemizer
     private static final Logger log = LoggerFactory.getLogger(Skolemizer.class);
 
     private final Ontology ontology;
-    private final UriBuilder baseUriBuilder, absolutePathBuilder;
+    private final UriBuilder baseUriBuilder;
+    private final UriBuilder absolutePathBuilder;
+
+    private static String exceptionString(String string)
+    {
+        return string + " cannot be null";
+    }
+
+    private static String uriBuilderStr = "UriBuilder";
+    private static String resourceStr = "Resource";
+    private static String ontClassStr = "OntClass";
 
     public Skolemizer(Ontology ontology, UriBuilder baseUriBuilder, UriBuilder absolutePathBuilder)
     {
-        if (ontology == null) throw new IllegalArgumentException("Ontology cannot be null");
-        if (baseUriBuilder == null) throw new IllegalArgumentException("UriBuilder cannot be null");
-        if (absolutePathBuilder == null) throw new IllegalArgumentException("UriBuilder cannot be null");
+        if (ontology == null) throw new IllegalArgumentException(exceptionString("Ontology"));
+        if (baseUriBuilder == null) throw new IllegalArgumentException(exceptionString(uriBuilderStr));
+        if (absolutePathBuilder == null) throw new IllegalArgumentException(exceptionString(uriBuilderStr));
         this.ontology = ontology;
         this.baseUriBuilder = baseUriBuilder;
         this.absolutePathBuilder = absolutePathBuilder;
@@ -70,7 +80,7 @@ public class Skolemizer
 
     public Model build(Model model)
     {
-        if (model == null) throw new IllegalArgumentException("Model cannot be null");
+        if (model == null) throw new IllegalArgumentException(exceptionString("Model"));
 
         Map<Resource, String> resourceURIMap = new HashMap<>();
         ResIterator resIt = model.listSubjects();
@@ -103,7 +113,7 @@ public class Skolemizer
     
     public URI build(Resource resource)
     {
-        if (resource == null) throw new IllegalArgumentException("Resource cannot be null");
+        if (resource == null) throw new IllegalArgumentException(exceptionString(resourceStr));
         
         StmtIterator it = resource.listProperties(RDF.type);
         
@@ -141,8 +151,8 @@ public class Skolemizer
     
     public UriBuilder getUriBuilder(String path, Resource resource, OntClass typeClass)
     {
-        if (path == null) throw new IllegalArgumentException("Path cannot be null");
-        if (typeClass == null) throw new IllegalArgumentException("OntClass cannot be null");
+        if (path == null) throw new IllegalArgumentException(exceptionString("Path"));
+        if (typeClass == null) throw new IllegalArgumentException(exceptionString(ontClassStr));
 
         final UriBuilder builder;
         // treat paths starting with / as absolute, others as relative (to the current absolute path)
@@ -161,8 +171,8 @@ public class Skolemizer
     
     public URI build(Resource resource, UriBuilder builder, String path, String fragment)
     {
-        if (resource == null) throw new IllegalArgumentException("Resource cannot be null");
-        if (builder == null) throw new IllegalArgumentException("UriBuilder cannot be null");
+        if (resource == null) throw new IllegalArgumentException(exceptionString(resourceStr));
+        if (builder == null) throw new IllegalArgumentException(exceptionString(uriBuilderStr));
 
         Map<String, String> nameValueMap = getNameValueMap(resource, new UriTemplateParser(path));
         return builder.path(path).fragment(fragment).buildFromMap(nameValueMap); // TO-DO: wrap into SkolemizationException
@@ -170,8 +180,8 @@ public class Skolemizer
 
     public static Map<String, String> getNameValueMap(Resource resource, UriTemplateParser parser)
     {
-        if (resource == null) throw new IllegalArgumentException("Resource cannot be null");
-        if (parser == null) throw new IllegalArgumentException("UriTemplateParser cannot be null");
+        if (resource == null) throw new IllegalArgumentException(exceptionString(resourceStr));
+        if (parser == null) throw new IllegalArgumentException(exceptionString("UriTemplateParser"));
 
         Map<String, String> nameValueMap = new HashMap<>();
         
@@ -187,7 +197,7 @@ public class Skolemizer
 
     public static Literal getLiteral(Resource resource, String namePath)
     {
-        if (resource == null) throw new IllegalArgumentException("Resource cannot be null");
+        if (resource == null) throw new IllegalArgumentException(exceptionString(resourceStr));
 
         if (namePath.contains("."))
         {
@@ -220,7 +230,7 @@ public class Skolemizer
 
     public static Resource getResource(Resource resource, String name)
     {
-        if (resource == null) throw new IllegalArgumentException("Resource cannot be null");
+        if (resource == null) throw new IllegalArgumentException(exceptionString(resourceStr));
         
         StmtIterator it = resource.listProperties();
         try
@@ -250,7 +260,7 @@ public class Skolemizer
     
     public OntClass getPathClass(OntClass ontClass, String path)
     {
-        if (ontClass == null) throw new IllegalArgumentException("OntClass cannot be null");
+        if (ontClass == null) throw new IllegalArgumentException(exceptionString(ontClassStr));
         
         if (path != null) return ontClass;
         else
@@ -281,7 +291,7 @@ public class Skolemizer
     
     public OntClass getFragmentClass(OntClass ontClass, String fragment)
     {
-        if (ontClass == null) throw new IllegalArgumentException("OntClass cannot be null");
+        if (ontClass == null) throw new IllegalArgumentException(exceptionString(ontClassStr));
         
         if (fragment != null) return ontClass;
         else
@@ -307,8 +317,8 @@ public class Skolemizer
     
     protected String getStringValue(OntClass ontClass, Property property)
     {
-        if (ontClass == null) throw new IllegalArgumentException("OntClass cannot be null");
-        if (property == null) throw new IllegalArgumentException("Property cannot be null");
+        if (ontClass == null) throw new IllegalArgumentException(exceptionString(ontClassStr));
+        if (property == null) throw new IllegalArgumentException(exceptionString("Property"));
 
         if (ontClass.hasProperty(property))
         {
@@ -329,7 +339,7 @@ public class Skolemizer
     // TO-DO: move to a LDTDH (document hierarchy) specific Skolemizer subclass
     public Resource getParent(OntClass ontClass)
     {
-        if (ontClass == null) throw new IllegalArgumentException("OntClass cannot be null");
+        if (ontClass == null) throw new IllegalArgumentException(exceptionString(ontClassStr));
 
         ExtendedIterator<OntClass> hasValueIt = ontClass.listSuperClasses();
         try

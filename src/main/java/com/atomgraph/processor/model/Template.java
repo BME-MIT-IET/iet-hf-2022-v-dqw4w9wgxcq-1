@@ -32,20 +32,13 @@ import org.glassfish.jersey.uri.UriTemplate;
 public interface Template extends OntClass
 {
 
-    static public final Comparator<Template> COMPARATOR = new Comparator<Template>()
-    {
+    Comparator<Template> COMPARATOR = (template1, template2) -> {
+        // Template always has default priority
+        double diff = template2.getPriority() - template1.getPriority();
+        if (diff > 0) return 1;
+        if (diff < 0) return -1;
 
-        @Override
-        public int compare(Template template1, Template template2)
-        {
-            // Template always has default priority
-            double diff = template2.getPriority() - template1.getPriority();
-            if (diff > 0) return 1;
-            if (diff < 0) return -1;
-            
-            return UriTemplate.COMPARATOR.compare(template1.getMatch(), template2.getMatch());
-        }
-
+        return UriTemplate.COMPARATOR.compare(template1.getMatch(), template2.getMatch());
     };
         
     UriTemplate getMatch();
