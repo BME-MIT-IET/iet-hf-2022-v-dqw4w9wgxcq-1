@@ -20,16 +20,18 @@ import com.atomgraph.processor.model.Template;
 import com.atomgraph.processor.model.impl.TemplateImpl;
 import com.atomgraph.processor.vocabulary.LDT;
 import com.atomgraph.server.util.OntologyLoader;
-import static org.junit.Assert.assertEquals;
 import org.apache.jena.enhanced.BuiltinPersonalities;
 import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.Ontology;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.sys.JenaSystem;
 import org.apache.jena.vocabulary.RDFS;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -47,13 +49,13 @@ public class TemplateMatcherTest
         JenaSystem.init();
     }
     
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass()
     {
         BuiltinPersonalities.model.add(Template.class, TemplateImpl.factory);
     }
     
-    @Before
+    @BeforeEach
     public void setUp()
     {
         ontology = ModelFactory.createOntologyModel().createOntology("http://test/ontology");
@@ -96,7 +98,7 @@ public class TemplateMatcherTest
         
         // load the ontology the same way Application loads it
         OntDocumentManager.getInstance().addModel(ontology.getURI(), ontology.getOntModel());
-        ontology = new OntologyLoader( OntDocumentManager.getInstance(), ontology.getURI(), ontology.getOntModel().getSpecification(), true).getOntology();
+        ontology = new OntologyLoader(OntDocumentManager.getInstance(), ontology.getURI(), ontology.getOntModel().getSpecification(), true).getOntology();
 
         matcher = new TemplateMatcher(ontology);
     }
@@ -115,7 +117,7 @@ public class TemplateMatcherTest
         assertEquals(null, matcher.match("more/specific/something/and/more"));
     }
     
-    @Test(expected = OntologyException.class)
+    @Test
     public void testTemplateWithNoPath()
     {
         Ontology invalidOntology = ModelFactory.createOntologyModel().createOntology("http://test/invalid-ontology");
@@ -123,10 +125,12 @@ public class TemplateMatcherTest
                 as(Template.class);
         invalidTemplate.addProperty(RDFS.isDefinedBy, invalidOntology);
         
-        new TemplateMatcher(invalidOntology).match("other/something");
+        assertThrows(OntologyException.class, () -> {
+                new TemplateMatcher(invalidOntology).match("other/something");
+        });
     }
     
-    @Test(expected = OntologyException.class)
+    @Test
     public void testTemplateWithNumericalPath()
     {
         Ontology invalidOntology = ModelFactory.createOntologyModel().createOntology("http://test/invalid-ontology");
@@ -135,7 +139,9 @@ public class TemplateMatcherTest
         invalidTemplate.addLiteral(LDT.match, 123).
                 addProperty(RDFS.isDefinedBy, invalidOntology);
         
-        new TemplateMatcher(invalidOntology).match("other/something");
+        assertThrows(OntologyException.class, () -> {
+                new TemplateMatcher(invalidOntology).match("other/something");
+        }); 
     }
     
 }

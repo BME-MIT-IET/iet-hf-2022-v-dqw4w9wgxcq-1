@@ -23,7 +23,8 @@ import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.shared.AccessDeniedException;
 import org.apache.jena.util.iterator.ExtendedIterator;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -72,22 +73,40 @@ public class OntModelReadOnlyTest
         }
     }
     
-    @Test(expected = AccessDeniedException.class)
+    @Test
     public void testAdd()
     {
-        ontModelRO.add(ontModelRO.getResource("http://x"), ontModelRO.getProperty("http://y"), ontModelRO.getResource("http://z"));
+        assertThrows(AccessDeniedException.class, () -> {
+            ontModelRO.add(ontModelRO.getResource(
+                "http://x"),
+                ontModelRO.getProperty("http://y"),
+                ontModelRO.getResource("http://z")
+            );
+        });
     }
     
-    @Test(expected = AccessDeniedException.class)
+    @Test
     public void testRemove()
     {
-        ontModelRO.remove(ontModelRO.getResource("http://x"), ontModelRO.getProperty("http://y"), ontModelRO.getResource("http://z"));
+        assertThrows(AccessDeniedException.class, () -> {
+            ontModelRO.remove(ontModelRO.getResource(
+                "http://x"),
+                ontModelRO.getProperty("http://y"),
+                ontModelRO.getResource("http://z")
+            );
+        });
     }
     
-    @Test(expected = AccessDeniedException.class)
+    @Test
     public void testGetRawModelAdd()
     {
-        ontModelRO.getRawModel().add(ontModelRO.getResource("http://x"), ontModelRO.getProperty("http://x"), ontModelRO.getResource("http://x"));
+        assertThrows(AccessDeniedException.class, () -> {
+            ontModelRO.getRawModel().add(
+                ontModelRO.getResource("http://x"),
+                ontModelRO.getProperty("http://x"),
+                ontModelRO.getResource("http://x")
+            );
+        });
     }
     
 }

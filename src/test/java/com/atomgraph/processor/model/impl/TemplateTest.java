@@ -29,7 +29,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.CacheControl;
-import static org.junit.Assert.assertEquals;
 import org.apache.jena.enhanced.BuiltinPersonalities;
 import org.apache.jena.ontology.Ontology;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -38,9 +37,11 @@ import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.sys.JenaSystem;
 import org.apache.jena.vocabulary.RDFS;
 import org.glassfish.jersey.uri.UriTemplate;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -60,14 +61,14 @@ public class TemplateTest
     private Ontology ontology;
     private Template superSuperTemplate, superTemplate, superTemplateOverriding, subTemplate, subTemplate1, template;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpClass()
     {
         BuiltinPersonalities.model.add(Template.class, TemplateImpl.factory);
         BuiltinPersonalities.model.add(Parameter.class, ParameterImpl.factory);
     }
     
-    @Before
+    @BeforeEach
     public void setUp()
     {
         // old reasoner setup with custom inheritance rules
@@ -175,10 +176,13 @@ public class TemplateTest
         assertEquals(superMatch, subTemplate1.getMatch());
     }
 
-    @Test(expected = OntologyException.class)
+    @Test
     public void testMissingQuery()
     {
-        template.getQuery();
+
+        assertThrows(OntologyException.class, () -> {
+            template.getQuery();
+        });
     }
     
     @Test
